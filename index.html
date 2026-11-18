@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#670403">
+<title>สมาชิก Mama Pook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon:#670403; --maroon-2:#8a160d; --maroon-3:#a32a17; --maroon-dark:#420201;
+    --gold:#c9973a; --gold-2:#e6c47c; --cream:#f8efe2; --paper:#fffcf7;
+    --ink:#33251c; --muted:#86726a; --line:#eadccb; --err:#b3261e; --ok:#2f7a4c;
+    --r:18px; --shadow:0 6px 22px rgba(103,4,3,.08);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:var(--cream);color:var(--ink);
+    font-family:'Prompt','Noto Sans Thai',system-ui,sans-serif;font-size:17px;line-height:1.55;font-weight:400}
+  button,input,select{font-family:inherit}
+  .hidden{display:none!important}
+
+  /* ---------- ส่วนหัว ---------- */
+  .hero{position:relative;color:#fff;text-align:center;overflow:hidden;
+    background:
+      radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 60%),
+      repeating-linear-gradient(135deg, rgba(255,255,255,.035) 0 2px, transparent 2px 16px),
+      linear-gradient(160deg,var(--maroon-2) 0%,var(--maroon) 55%,var(--maroon-dark) 100%);
+    padding:calc(18px + env(safe-area-inset-top)) 20px 52px}
+  .hero .in{max-width:460px;margin:0 auto;position:relative;z-index:1}
+  .logo{height:124px;margin:2px auto 12px;display:flex;justify-content:center}
+  .logo img{height:124px;width:auto;filter:drop-shadow(0 10px 18px rgba(0,0,0,.3))}
+  .eyebrow{font-size:13px;letter-spacing:3.5px;color:var(--gold-2);font-weight:500}
+  .hero h1{margin:2px 0 2px;font-size:28px;font-weight:600;line-height:1.3}
+  .hero p{margin:0;font-size:16px;opacity:.85;font-weight:300}
+  .pill{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:6px 14px;border-radius:999px;
+    background:rgba(255,255,255,.12);border:1px solid rgba(230,196,124,.5);font-size:15px;color:var(--gold-2)}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;list-style:none;padding:0;margin:18px auto 0;max-width:340px}
+  .steps li{font-size:14px;color:rgba(255,255,255,.6);display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
+  .steps li:before{content:attr(data-n);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    border:1.5px solid rgba(255,255,255,.35);font-size:14px;font-weight:600}
+  .steps li:not(:last-child):after{content:"";position:absolute;top:15px;left:calc(50% + 21px);width:calc(100% - 34px);height:1.5px;background:rgba(255,255,255,.25)}
+  .steps li.on{color:#fff}
+  .steps li.on:before{background:var(--gold);border-color:var(--gold);color:var(--maroon-dark)}
+  .steps li.done:before{content:"✓";background:rgba(255,255,255,.95);border-color:#fff;color:var(--maroon)}
+  .steps li.done{color:rgba(255,255,255,.85)}
+  .wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:34px;display:block}
+
+  /* ---------- เนื้อหา ---------- */
+  main{max-width:480px;margin:-22px auto 0;padding:0 16px 130px;position:relative;z-index:2}
+  .card{background:var(--paper);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 18px;margin-bottom:14px;border:1px solid rgba(234,220,203,.7)}
+  .ctitle{display:flex;align-items:center;gap:10px;margin:0 0 16px;font-size:19px;font-weight:600;color:var(--maroon)}
+  .ctitle svg{flex:none}
+  .hello{display:flex;align-items:center;gap:14px}
+  .avatar{width:54px;height:54px;border-radius:50%;object-fit:cover;flex:none;background:var(--maroon);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;box-shadow:0 0 0 2px var(--gold-2)}
+  .hello .t1{font-size:15px;color:var(--muted)}
+  .hello .t2{font-size:20px;font-weight:600;line-height:1.3}
+
+  .field{margin-bottom:18px}
+  .field:last-child{margin-bottom:0}
+  .label{display:flex;justify-content:space-between;align-items:baseline;font-weight:500;font-size:17px;margin-bottom:8px}
+  .label small{font-weight:400;color:var(--muted);font-size:14px}
+  .inp{position:relative}
+  .inp svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);opacity:.55}
+  input[type=text],input[type=tel],select{width:100%;font-size:20px;padding:14px 16px;border-radius:14px;border:1.5px solid var(--line);
+    background:#fff;color:var(--ink);outline:none;transition:border-color .15s, box-shadow .15s;-webkit-appearance:none;appearance:none}
+  input:focus,select:focus{border-color:var(--maroon);box-shadow:0 0 0 4px rgba(103,4,3,.08)}
+  input::placeholder{color:#c2b2a6}
+  .inp input[type]{padding-left:50px}
+  .dob{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .dob select{font-size:18px;padding:14px 30px 14px 12px;text-align:left;
+    background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23670403' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center}
+  .dob select.empty{color:#b3a196}
+  .hint{font-size:14px;color:var(--muted);margin-top:6px}
+  .ferr{font-size:15px;color:var(--err);margin-top:6px;display:none}
+  .bad .ferr{display:block}
+  .bad input,.bad select,.bad .chips .chip{border-color:var(--err)}
+
+  .chips{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr;gap:10px}
+  .chip{position:relative;min-height:70px;padding:10px 8px;border-radius:14px;border:1.5px solid var(--line);background:#fff;
+    color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1.25;cursor:pointer;transition:all .15s}
+  .chip b{font-size:16px;font-weight:600}
+  .chip span{font-size:13px;color:var(--muted);margin-top:2px}
+  .chip.on{background:var(--maroon);border-color:var(--maroon);color:#fff;box-shadow:0 6px 16px rgba(103,4,3,.22)}
+  .chip.on span{color:var(--gold-2)}
+  .chip.on:after{content:"✓";position:absolute;top:-8px;right:-8px;width:22px;height:22px;box-shadow:0 0 0 3px var(--paper);border-radius:50%;background:var(--gold);color:var(--maroon-dark);
+    font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+  .chips.c3{grid-template-columns:repeat(3,1fr)}
+  .chips.sm .chip{min-height:56px}
+  .chip.mini{min-height:56px}
+  .chip.pick{background:var(--maroon);border-color:var(--maroon);color:#fff}
+  .pq-top{display:flex;justify-content:space-between;align-items:baseline}
+  .pq-top b{font-size:19px;color:var(--maroon);font-weight:600}
+  .pq-top span{font-size:14px;color:var(--muted)}
+  .pq-sub{font-size:15px;color:var(--muted);margin:2px 0 12px}
+  .bar{height:6px;border-radius:9px;background:#efe3d3;overflow:hidden;margin-bottom:16px}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--maroon-2));transition:width .3s}
+  .pq-q{font-size:18px;font-weight:600;margin-bottom:12px}
+  .pq-err{font-size:14px;color:var(--err);margin-top:8px}
+  .thanks{text-align:center;color:var(--ok);font-size:16px;margin:0 0 14px}
+  .consent{display:flex;gap:12px;align-items:flex-start;padding:4px 0;cursor:pointer}
+  .consent + .consent{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+  .consent input{position:absolute;opacity:0;pointer-events:none}
+  .tick{flex:none;width:26px;height:26px;border-radius:8px;border:1.5px solid #cdb9a6;background:#fff;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .15s}
+  .consent input:checked + .tick{background:var(--maroon);border-color:var(--maroon)}
+  .consent input:checked + .tick:after{content:"";width:7px;height:13px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+  .consent .txt{font-size:16px;line-height:1.55}
+  .consent a{color:var(--maroon);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+  .opt{display:inline-block;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:0 6px;margin-left:4px;vertical-align:2px}
+  .bad .tick{border-color:var(--err)}
+  .cons2{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+
+  .ctabar{position:fixed;left:0;right:0;bottom:0;z-index:5;padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+    background:linear-gradient(to top,var(--cream) 70%,rgba(248,239,226,0))}
+  .ctabar .btn{max-width:448px;display:block;margin:0 auto}
+  .btn{width:100%;font-size:19px;font-weight:600;min-height:58px;border:0;border-radius:16px;cursor:pointer;
+    background:linear-gradient(180deg,var(--maroon-2),var(--maroon));color:#fff;box-shadow:0 8px 20px rgba(103,4,3,.28);transition:transform .1s, opacity .15s}
+  .btn:active{transform:scale(.98)}
+  .btn:disabled{opacity:.55}
+  .btn.ghost{background:#fff;color:var(--maroon);border:1.5px solid var(--maroon);box-shadow:none}
+  .link{display:block;margin:10px auto 0;background:none;border:0;color:var(--maroon);font-size:16px;font-weight:500;padding:10px 14px;cursor:pointer}
+  .link:disabled{color:var(--muted)}
+
+  /* ---------- OTP ---------- */
+  .center{text-align:center}
+  .phone-big{font-size:24px;font-weight:600;letter-spacing:1px;margin:2px 0 18px}
+  .testcode{background:#eef6f0;border:1px dashed #9cc8ab;color:var(--ok);border-radius:12px;padding:10px 12px;font-size:15px;margin-bottom:16px}
+  .testcode b{font-size:22px;letter-spacing:5px}
+  .otpw{position:relative;margin:0 auto 6px;max-width:360px}
+  .otpw input{position:absolute;inset:0;width:100%;height:100%;opacity:0;font-size:16px;border:0;z-index:2}
+  .boxes{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+  .boxes span{height:62px;border-radius:14px;border:1.5px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:28px;font-weight:600;color:var(--ink);transition:all .15s}
+  .boxes span.cur{border-color:var(--maroon);box-shadow:0 0 0 4px rgba(103,4,3,.08)}
+  .boxes span.fill{border-color:#d9c3ae}
+  .otpbad .boxes span{border-color:var(--err)}
+  #otpErr{display:block;min-height:22px;text-align:center;margin:8px 0 6px}
+
+  /* ---------- บัตรสมาชิก ---------- */
+  .welcome{text-align:center;margin:4px 0 14px}
+  .welcome b{display:block;font-size:21px;color:var(--maroon);font-weight:600}
+  .welcome > span{font-size:15px;color:var(--muted)}
+  .mcard{position:relative;aspect-ratio:1.586;border-radius:20px;padding:20px 22px;color:#fff;overflow:hidden;margin-bottom:14px;
+    background:
+      radial-gradient(90% 70% at 100% 0%, rgba(201,151,58,.35) 0%, rgba(201,151,58,0) 60%),
+      repeating-linear-gradient(135deg, rgba(255,255,255,.04) 0 2px, transparent 2px 14px),
+      linear-gradient(150deg,var(--maroon-3) 0%,var(--maroon) 50%,var(--maroon-dark) 100%);
+    box-shadow:0 16px 34px rgba(66,2,1,.35);display:flex;flex-direction:column;justify-content:space-between;animation:pop .5s ease-out}
+  @keyframes pop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+  .mcard .row1{display:flex;justify-content:space-between;align-items:center}
+  .mcard .brand{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:2.5px;color:var(--gold-2);font-weight:500}
+  .mcard .brand .mini{height:44px;display:flex}
+  .mcard .brand .mini img{height:44px;width:auto;filter:drop-shadow(0 2px 5px rgba(0,0,0,.3))}
+  .mcard .tier{font-size:12px;letter-spacing:2px;padding:4px 10px;border-radius:999px;border:1px solid rgba(230,196,124,.6);color:var(--gold-2)}
+  .mcard .nm{font-size:24px;font-weight:600;line-height:1.3}
+  .mcard .id{font-size:28px;font-weight:700;letter-spacing:4px;
+    background:linear-gradient(180deg,#f7e2a8,#c9973a);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .mcard .row3{display:flex;justify-content:space-between;font-size:13px;opacity:.9}
+  .mcard .row3 b{display:block;font-size:16px;font-weight:500;opacity:1}
+  .pts{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .pts .n{font-size:42px;font-weight:700;color:var(--maroon);line-height:1}
+  .pts .l{font-size:15px;color:var(--muted)}
+  .pts .how{font-size:15px;color:var(--ink);text-align:right;line-height:1.45}
+  .info{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .info div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  .info span{display:block;font-size:14px;color:var(--muted)}
+  .info b{font-size:17px;font-weight:600}
+
+  /* ---------- อื่น ๆ ---------- */
+  .demo{max-width:448px;margin:0 auto 12px;background:#fff6dc;border:1px solid #ecd28b;color:#6b5100;border-radius:12px;padding:8px 12px;
+    font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .demo button{font-size:14px;border:1px solid #d9b95c;background:#fff;border-radius:8px;padding:5px 10px;color:#6b5100}
+  .loading{display:flex;flex-direction:column;align-items:center;gap:14px;padding:40px 0;color:var(--muted)}
+  .spin{width:42px;height:42px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--maroon);animation:s .8s linear infinite}
+  @keyframes s{to{transform:rotate(360deg)}}
+
+  .modal{position:fixed;inset:0;z-index:20;background:rgba(43,26,20,.5);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
+  @keyframes fade{from{opacity:0}}
+  .sheet{background:var(--paper);width:100%;max-width:520px;height:88vh;border-radius:22px 22px 0 0;display:flex;flex-direction:column;animation:up .25s ease-out}
+  @keyframes up{from{transform:translateY(40px)}}
+  .sheet .top{padding:10px 18px 0}
+  .grab{width:44px;height:5px;border-radius:9px;background:#dccbb8;margin:0 auto 12px}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#f2e6d7;padding:4px;border-radius:12px}
+  .tabs button{white-space:nowrap;border:0;background:none;border-radius:9px;padding:10px 6px;font-size:15px;font-weight:500;color:var(--muted)}
+  .tabs button.on{background:#fff;color:var(--maroon);box-shadow:0 2px 6px rgba(0,0,0,.06)}
+  .doc{flex:1;overflow:auto;padding:16px 20px 8px;font-size:15px;line-height:1.7;-webkit-overflow-scrolling:touch}
+  .doc h3{font-size:18px;color:var(--maroon);margin:0 0 2px}
+  .doc .ver{font-size:13px;color:var(--muted);margin-bottom:12px}
+  .doc{counter-reset:sec}
+  .doc h4{font-size:15.5px;margin:16px 0 6px;counter-increment:sec}
+  .doc h4:before{content:counter(sec) ". "}
+  .doc p{margin:0 0 8px}
+  .doc ol{list-style:none;margin:0 0 6px;padding:0;counter-reset:item}
+  .doc li{counter-increment:item;position:relative;padding-left:36px;margin-bottom:5px}
+  .doc li:before{content:counter(sec) "." counter(item);color:var(--muted);position:absolute;left:0;top:0}
+  .nw{white-space:nowrap}
+  .sheet .foot{padding:12px 18px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="in">
+    <div class="logo" id="logo"></div>
+    <div class="eyebrow">MAMA POOK MEMBER</div>
+    <h1 id="hTitle">สมาชิก<span class="nw">หม่าม้าปุก</span></h1>
+    <p id="hSub">ก๋วยเตี๋ยวคอหมูย่าง <span class="nw">หม่าม้าปุก</span></p>
+    <div id="qrPill" class="pill hidden"></div>
+    <ol id="steps" class="steps hidden">
+      <li data-n="1">กรอกข้อมูล</li><li data-n="2">ยืนยันเบอร์</li><li data-n="3">เสร็จสิ้น</li>
+    </ol>
+  </div>
+  <svg class="wave" viewBox="0 0 400 34" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34 C 120 2 280 2 400 34 Z" fill="#f8efe2"/></svg>
+</header>
+
+<main>
+  <div id="demoBar" class="demo hidden">
+    <span>โหมดตัวอย่าง (ยังไม่เชื่อม LINE)</span>
+    <span style="display:flex;gap:6px"><button type="button" id="demoQ" onclick="demoToggleQ()">ปิดคำถาม</button><button type="button" onclick="demoReset()">เริ่มใหม่</button></span>
+  </div>
+
+  <!-- โหลด -->
+  <section id="vLoading" class="card loading"><div class="spin"></div><div>กำลังโหลด…</div></section>
+
+  <!-- สมัคร -->
+  <section id="vForm" class="hidden">
+    <div class="card hello">
+      <div id="avatar" class="avatar">ม</div>
+      <div><div class="t1">สวัสดีครับ</div><div class="t2" id="lineName">คุณลูกค้า</div></div>
+    </div>
+
+    <div class="card">
+      <h2 class="ctitle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#670403" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+        ข้อมูลสมาชิก
+      </h2>
+      <div class="field" id="fPhone">
+        <label class="label" for="phone"><span class="nw">เบอร์มือถือ</span></label>
+        <div class="inp">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#670403" stroke-width="2" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+          <input id="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="08X-XXX-XXXX" maxlength="12">
+        </div>
+        <div class="hint">ใช้สำหรับ<span class="nw">ยืนยันตัวตน</span>และสะสมแต้ม</div>
+        <div class="ferr"></div>
+      </div>
+      <div class="field" id="fNick">
+        <label class="label" for="nick">ชื่อเล่น</label>
+        <div class="inp">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#670403" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+          <input id="nick" type="text" maxlength="40" placeholder="ชื่อที่ให้ทางร้านเรียก" autocomplete="nickname">
+        </div>
+        <div class="ferr"></div>
+      </div>
+      <div class="field" id="fBdate">
+        <span class="label">วันเกิด <small>รับ<span class="nw">สิทธิพิเศษ</span>ใน<span class="nw">เดือนเกิด</span></small></span>
+        <div class="dob">
+          <select id="bDay" aria-label="วัน"></select>
+          <select id="bMonth" aria-label="เดือน"></select>
+          <select id="bYear" aria-label="ปี พ.ศ."></select>
+        </div>
+        <div class="ferr"></div>
+      </div>
+      <div class="field" id="fGender">
+        <span class="label">เพศ</span>
+        <div class="chips c3 sm" id="gChips"></div>
+        <div class="ferr"></div>
+      </div>
+    </div>
+
+    <div class="card" id="fBranch">
+      <h2 class="ctitle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#670403" stroke-width="2" stroke-linecap="round"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        สาขาที่ทานบ่อย
+      </h2>
+      <div id="chips" class="chips"></div>
+      <div class="ferr"></div>
+    </div>
+
+    <div class="card">
+      <div id="fConsent">
+        <label class="consent">
+          <input id="cTerms" type="checkbox"><span class="tick"></span>
+          <span class="txt">ยอมรับ <a href="#" onclick="openDoc('terms');return false;"><span class="nw">ข้อกำหนดและเงื่อนไข</span><span class="nw">การเป็นสมาชิก</span></a> และรับทราบ <a href="#" onclick="openDoc('privacy');return false;">นโยบาย<span class="nw">ความเป็นส่วนตัว</span></a></span>
+        </label>
+        <div class="ferr" style="margin-left:38px"></div>
+      </div>
+      <div id="fNews" class="cons2">
+        <label class="consent">
+          <input id="cNews" type="checkbox"><span class="tick"></span>
+          <span class="txt">ยินยอมให้<span class="nw">บริษัทและแบรนด์ในเครือ</span>ส่ง<span class="nw">ข่าวสาร</span> <span class="nw">โปรโมชัน</span> <span class="nw">สิทธิประโยชน์</span> และ<span class="nw">ข้อเสนอพิเศษ</span> ตาม <a href="#" onclick="openDoc('privacy');return false;">นโยบาย<span class="nw">ความเป็นส่วนตัว</span></a></span>
+        </label>
+        <div class="ferr" style="margin-left:38px"></div>
+      </div>
+    </div>
+
+    <div class="ctabar"><button id="btnOtp" class="btn" type="button" onclick="requestOtp()">รับ<span class="nw">รหัสยืนยัน</span>ทาง SMS</button></div>
+  </section>
+
+  <!-- ยืนยันรหัส -->
+  <section id="vOtp" class="hidden">
+    <div class="card center">
+      <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#670403" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="margin:4px auto 6px;display:block"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01" stroke-width="2.6"/></svg>
+      <div style="color:var(--muted);font-size:16px">กรอกรหัส 6 หลักที่ส่งไปยัง</div>
+      <div class="phone-big" id="otpPhone"></div>
+      <div id="testCode" class="testcode hidden"></div>
+      <div class="otpw" id="otpW">
+        <input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" aria-label="รหัสยืนยัน 6 หลัก">
+        <div class="boxes" id="boxes"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div id="otpErr" class="ferr"></div>
+      <button id="btnVerify" class="btn" type="button" onclick="verifyOtp()">ยืนยันรหัส</button>
+      <button id="btnResend" class="link" type="button" onclick="requestOtp(true)" disabled>ขอรหัสใหม่</button>
+      <button class="link" type="button" onclick="backToForm()" style="margin-top:0">แก้ไขเบอร์โทร</button>
+    </div>
+  </section>
+
+  <!-- บัตรสมาชิก -->
+  <section id="vCard" class="hidden">
+    <div id="welcome" class="welcome hidden"><b>ยินดีต้อนรับสู่ครอบครัว<span class="nw">หม่าม้าปุก</span></b><span>สมัครสมาชิกเรียบร้อยแล้ว</span></div>
+    <div class="mcard">
+      <div class="row1">
+        <div class="brand"><div class="mini" id="miniLogo"></div>MAMA POOK</div>
+        <div class="tier">MEMBER</div>
+      </div>
+      <div>
+        <div class="nm" id="mNick"></div>
+        <div class="id" id="mId"></div>
+      </div>
+      <div class="row3">
+        <div>เบอร์โทร<b id="mPhone"></b></div>
+        <div style="text-align:right">สมาชิกตั้งแต่<b id="mSince"></b></div>
+      </div>
+    </div>
+    <div id="pqThanks" class="thanks hidden">ขอบคุณที่บอกเราครับ</div>
+    <div id="pq" class="card hidden">
+      <div class="pq-top"><b>บอกเราอีกนิด</b><span id="pqStep"></span></div>
+      <div class="pq-sub">เพื่อให้เราจัด<span class="nw">สิทธิพิเศษ</span>ที่ตรงใจคุณ ใช้เวลา<span class="nw">ไม่ถึง 1 นาที</span></div>
+      <div class="bar"><i id="pqBar"></i></div>
+      <div class="pq-q" id="pqQ"></div>
+      <div class="chips" id="pqOpts"></div>
+      <div class="pq-err" id="pqErr"></div>
+      <button class="link" type="button" onclick="pqSkip()">ข้ามข้อนี้</button>
+    </div>
+    <div class="card pts">
+      <div><div class="l">แต้มสะสม</div><div class="n" id="mPoints">0</div></div>
+      <div class="how">สะสมแต้ม<span class="nw">ทุกครั้งที่ทาน</span><br><b>แจ้งเบอร์โทรที่แคชเชียร์</b></div>
+    </div>
+    <div class="card info">
+      <div><span>วันเกิด</span><b id="mBday">-</b></div>
+      <div><span>สาขาที่ทานบ่อย</span><b id="mFav">-</b></div>
+    </div>
+    <div id="addFriend" class="hidden"><button class="btn ghost" type="button" onclick="openAddFriend()">เพิ่ม LINE <span class="nw">หม่าม้าปุก</span>เป็นเพื่อน</button></div>
+    <button id="btnClose" class="link hidden" type="button" onclick="closeApp()">ปิดหน้านี้</button>
+  </section>
+
+  <!-- ผิดพลาด -->
+  <section id="vError" class="card loading hidden">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#670403" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 7v6M12 16.5h.01" stroke-width="2.4"/></svg>
+    <div id="fatalMsg" class="center" style="color:var(--ink)"></div>
+    <button class="btn" type="button" style="max-width:260px" onclick="location.reload()">ลองใหม่</button>
+  </section>
+</main>
+
+<!-- ข้อกำหนด / นโยบาย -->
+<div id="docModal" class="modal hidden" onclick="if(event.target===this)closeDoc()">
+  <div class="sheet">
+    <div class="top">
+      <div class="grab"></div>
+      <div class="tabs"><button type="button" id="tabTerms" onclick="docTab('terms')"><span class="nw">ข้อกำหนด</span>สมาชิก</button><button type="button" id="tabPrivacy" onclick="docTab('privacy')"><span class="nw">ความเป็นส่วนตัว</span></button></div>
+    </div>
+    <div class="doc" id="docTerms">
+      <h3><span class="nw">ข้อกำหนด</span>และ<span class="nw">เงื่อนไข</span>การเป็นสมาชิก Mama Pook Member</h3>
+      <div class="ver"><span class="nw">ฉบับที่ 1</span> · <span class="nw">ปรับปรุง</span>ล่าสุด <span class="nw">พฤศจิกายน 2569</span></div>
+      <p><span class="nw">บริษัท หม่าม้าปุก กรุ๊ป จำกัด</span> (“บริษัท”) จัดทำ<span class="nw">ข้อกำหนด</span>และ<span class="nw">เงื่อนไข</span>ฉบับนี้ (“<span class="nw">ข้อกำหนด</span>”) เพื่อใช้บังคับกับ<span class="nw">โปรแกรมสมาชิก</span> Mama Pook Member (“<span class="nw">โปรแกรมสมาชิก</span>”) <span class="nw">ผู้สมัคร</span>และสมาชิกโปรดอ่านและทำความเข้าใจ<span class="nw">ข้อกำหนด</span>นี้โดยละเอียดก่อนสมัครสมาชิกหรือใช้<span class="nw">สิทธิประโยชน์</span>ใด ๆ การสมัครหรือ<span class="nw">การใช้งาน</span><span class="nw">โปรแกรมสมาชิก</span>ถือว่า<span class="nw">ผู้สมัคร</span>และสมาชิกได้อ่าน เข้าใจ และตกลงผูกพันตาม<span class="nw">ข้อกำหนด</span>นี้ รวมถึงที่มีการ<span class="nw">แก้ไขเพิ่มเติม</span>ใน<span class="nw">ภายหลัง</span>ทุกประการ</p>
+      <h4>คำนิยาม</h4>
+      <ol>
+        <li>“บริษัท” หมายถึง <span class="nw">บริษัท หม่าม้าปุก กรุ๊ป จำกัด</span> รวมถึง<span class="nw">ผู้สืบสิทธิ</span>และ<span class="nw">ผู้รับโอนสิทธิ</span>ของบริษัท</li>
+        <li>“<span class="nw">แบรนด์ในเครือ</span>” หมายถึง ร้านอาหาร สินค้า และบริการ<span class="nw">ภายใต้</span><span class="nw">เครื่องหมายการค้า</span>ที่บริษัทหรือ<span class="nw">บริษัทในเครือ</span>เป็นผู้<span class="nw">ดำเนินการ</span> ทั้งที่มีอยู่ในปัจจุบันและที่จะมีขึ้นในอนาคต</li>
+        <li>“สมาชิก” หมายถึง <span class="nw">บุคคลธรรมดา</span>ที่สมัครและได้รับการยืนยัน<span class="nw">สมาชิกภาพ</span>ใน<span class="nw">โปรแกรมสมาชิก</span>แล้ว</li>
+        <li>“<span class="nw">บัญชีสมาชิก</span>” หมายถึง ข้อมูลและสิทธิของสมาชิกที่บันทึกอยู่ในระบบของบริษัท ซึ่งเชื่อมโยงกับบัญชี LINE และ<span class="nw">หมายเลขโทรศัพท์</span>เคลื่อนที่ของสมาชิก</li>
+        <li>“<span class="nw">คะแนนสะสม</span>” หมายถึง คะแนนที่บริษัทมอบให้แก่สมาชิกตาม<span class="nw">หลักเกณฑ์</span>ที่บริษัท<span class="nw">กำหนด</span> เพื่อใช้แลกรับ<span class="nw">ของรางวัล</span>หรือ<span class="nw">สิทธิประโยชน์</span></li>
+        <li>“<span class="nw">สิทธิประโยชน์</span>” หมายถึง ส่วนลด <span class="nw">ของรางวัล</span> คูปอง <span class="nw">สิทธิพิเศษ</span> และประโยชน์อื่นใดที่บริษัทจัดให้แก่สมาชิก</li>
+        <li>“สาขาที่<span class="nw">ร่วมรายการ</span>” หมายถึง สาขาหรือ<span class="nw">ช่องทางการขาย</span>ของบริษัทและ<span class="nw">แบรนด์ในเครือ</span>ที่บริษัท<span class="nw">กำหนด</span>ให้ร่วม<span class="nw">โปรแกรมสมาชิก</span></li>
+      </ol>
+      <h4>คุณสมบัติและการสมัครสมาชิก</h4>
+      <ol>
+        <li><span class="nw">ผู้สมัคร</span>ต้องเป็น<span class="nw">บุคคลธรรมดา</span>ซึ่งมีบัญชี LINE และ<span class="nw">หมายเลขโทรศัพท์</span>เคลื่อนที่ที่<span class="nw">ผู้สมัคร</span>เป็น<span class="nw">ผู้ใช้งาน</span></li>
+        <li><span class="nw">ผู้สมัคร</span>ต้องสมัครผ่านช่องทางที่บริษัท<span class="nw">กำหนด</span> กรอกข้อมูลตามที่ระบบ<span class="nw">กำหนด</span>ให้ครบถ้วน และยืนยัน<span class="nw">หมายเลขโทรศัพท์</span>ด้วย<span class="nw">รหัสยืนยัน</span>ที่ได้รับ</li>
+        <li>บุคคลหนึ่งสามารถสมัครสมาชิกได้<span class="nw">หนึ่งบัญชี</span>สมาชิก และ<span class="nw">หมายเลขโทรศัพท์</span>หนึ่งหมายเลขใช้กับ<span class="nw">บัญชีสมาชิก</span>ได้<span class="nw">หนึ่งบัญชี</span>เท่านั้น</li>
+        <li><span class="nw">ผู้สมัคร</span>ที่ยังไม่บรรลุ<span class="nw">นิติภาวะ</span> ต้องได้รับ<span class="nw">ความยินยอม</span>จาก<span class="nw">ผู้ใช้อำนาจปกครอง</span>ก่อนสมัครสมาชิก และให้ถือว่า<span class="nw">ผู้ใช้อำนาจปกครอง</span>ได้ให้<span class="nw">ความยินยอม</span>แล้วเมื่อมีการสมัครสมาชิก</li>
+        <li><span class="nw">ผู้สมัคร</span>รับรองว่าข้อมูลที่ให้ไว้เป็นข้อมูลของตนเอง ถูกต้อง ครบถ้วน และเป็นปัจจุบัน และจะแจ้งแก้ไขเมื่อมีการ<span class="nw">เปลี่ยนแปลง</span></li>
+        <li>บริษัทสงวนสิทธิ์ในการพิจารณาอนุมัติหรือปฏิเสธการสมัครสมาชิกตามที่บริษัทเห็นสมควร</li>
+        <li><span class="nw">สมาชิกภาพ</span>มีผลนับแต่วันที่ระบบยืนยันการสมัครสมาชิกสำเร็จ</li>
+      </ol>
+      <h4><span class="nw">บัญชีสมาชิก</span>และการรักษาความปลอดภัย</h4>
+      <ol>
+        <li>สมาชิกมีหน้าที่ดูแลรักษาบัญชี LINE <span class="nw">หมายเลขโทรศัพท์</span> และ<span class="nw">รหัสยืนยัน</span>ที่<span class="nw">เกี่ยวข้อง</span>กับ<span class="nw">บัญชีสมาชิก</span> และต้องไม่เปิดเผย<span class="nw">รหัสยืนยัน</span>แก่บุคคลอื่น</li>
+        <li>รายการใด ๆ ที่<span class="nw">ดำเนินการ</span>ผ่าน<span class="nw">บัญชีสมาชิก</span> ให้ถือเป็นการกระทำของสมาชิก</li>
+        <li>กรณีสมาชิกเปลี่ยนบัญชี LINE หรือ<span class="nw">เครื่องโทรศัพท์</span> สมาชิกสามารถยืนยัน<span class="nw">หมายเลขโทรศัพท์</span>เดิม เพื่อย้าย<span class="nw">บัญชีสมาชิก</span> <span class="nw">คะแนนสะสม</span> และ<span class="nw">สิทธิประโยชน์</span>ไปยังบัญชีใหม่ได้ตาม<span class="nw">ขั้นตอน</span>ที่บริษัท<span class="nw">กำหนด</span></li>
+        <li>กรณีสมาชิกเปลี่ยน<span class="nw">หมายเลขโทรศัพท์</span> หรือพบว่ามีการใช้<span class="nw">บัญชีสมาชิก</span>โดย<span class="nw">ไม่ได้รับอนุญาต</span> สมาชิกต้องแจ้งบริษัทโดยเร็ว ทั้งนี้ บริษัทไม่ต้องรับผิดชอบต่อ<span class="nw">ความเสียหาย</span>ที่เกิดขึ้นก่อนได้รับแจ้ง</li>
+      </ol>
+      <h4><span class="nw">คะแนนสะสม</span></h4>
+      <ol>
+        <li>สมาชิกจะได้รับ<span class="nw">คะแนนสะสม</span>จากการซื้อสินค้าหรือ<span class="nw">ใช้บริการ</span> ณ สาขาที่<span class="nw">ร่วมรายการ</span> ตามอัตรา <span class="nw">หลักเกณฑ์</span> และ<span class="nw">เงื่อนไข</span>ที่บริษัท<span class="nw">กำหนด</span>และ<span class="nw">ประกาศ</span>ในแต่ละ<span class="nw">ช่วงเวลา</span></li>
+        <li>สมาชิกต้องแจ้ง<span class="nw">หมายเลขโทรศัพท์</span>หรือแสดงบัตรสมาชิกก่อน<span class="nw">ชำระเงิน</span>ทุกครั้ง บริษัท<span class="nw">อาจไม่สามารถ</span>เพิ่ม<span class="nw">คะแนนสะสม</span><span class="nw">ย้อนหลัง</span>ให้สำหรับรายการที่มิได้แจ้งไว้ ณ เวลา<span class="nw">ชำระเงิน</span></li>
+        <li>รายการบางประเภทอาจไม่ได้รับ<span class="nw">คะแนนสะสม</span> เช่น <span class="nw">ค่าบริการ</span> ภาษี <span class="nw">ค่าจัดส่ง</span> การสั่งซื้อผ่านช่องทางของ<span class="nw">บุคคลภายนอก</span> หรือรายการอื่นที่บริษัท<span class="nw">กำหนด</span></li>
+        <li><span class="nw">คะแนนสะสม</span>มีอายุ<span class="nw">การใช้งาน</span>ตามที่บริษัท<span class="nw">กำหนด</span> <span class="nw">คะแนนสะสม</span>ที่หมดอายุจะถูกตัดออกจาก<span class="nw">บัญชีสมาชิก</span>โดย<span class="nw">อัตโนมัติ</span></li>
+        <li>กรณีมีการ<span class="nw">ยกเลิก</span>รายการ <span class="nw">คืนสินค้า</span> หรือ<span class="nw">คืนเงิน</span> บริษัทมีสิทธิหัก<span class="nw">คะแนนสะสม</span>ที่ได้รับจากรายการ<span class="nw">ดังกล่าว</span>ออกจาก<span class="nw">บัญชีสมาชิก</span></li>
+        <li>กรณีพบความผิดพลาดของระบบหรือการบันทึก<span class="nw">คะแนนสะสม</span> บริษัทมีสิทธิแก้ไข<span class="nw">คะแนนสะสม</span>ให้ถูกต้องตาม<span class="nw">ข้อเท็จจริง</span></li>
+        <li><span class="nw">คะแนนสะสม</span>ไม่มี<span class="nw">มูลค่า</span>เป็นเงิน และไม่สามารถโอน <span class="nw">จำหน่าย</span> <span class="nw">แลกเปลี่ยน</span> หรือเปลี่ยนเป็น<span class="nw">เงินสด</span>ได้ เว้นแต่บริษัท<span class="nw">กำหนด</span>เป็น<span class="nw">อย่างอื่น</span></li>
+      </ol>
+      <h4>การแลก<span class="nw">ของรางวัล</span>และการใช้<span class="nw">สิทธิประโยชน์</span></h4>
+      <ol>
+        <li>สมาชิกสามารถใช้<span class="nw">คะแนนสะสม</span>แลก<span class="nw">ของรางวัล</span>หรือ<span class="nw">สิทธิประโยชน์</span>ตามรายการ จำนวน <span class="nw">ระยะเวลา</span> และ<span class="nw">เงื่อนไข</span>ที่บริษัท<span class="nw">กำหนด</span></li>
+        <li><span class="nw">ของรางวัล</span>และ<span class="nw">สิทธิประโยชน์</span>มี<span class="nw">จำนวนจำกัด</span> และอาจ<span class="nw">เปลี่ยนแปลง</span>ได้ตามความ<span class="nw">เหมาะสม</span></li>
+        <li><span class="nw">คะแนนสะสม</span>ที่ใช้แลกแล้วไม่สามารถ<span class="nw">ยกเลิก</span> คืน หรือ<span class="nw">เปลี่ยนแปลง</span>ได้</li>
+        <li><span class="nw">สิทธิประโยชน์</span>ใช้ได้ภายใน<span class="nw">ระยะเวลา</span>ที่<span class="nw">กำหนด</span> และไม่สามารถใช้ร่วมกับรายการ<span class="nw">ส่งเสริมการขาย</span>อื่น เว้นแต่ระบุไว้เป็น<span class="nw">อย่างอื่น</span></li>
+        <li><span class="nw">สิทธิพิเศษ</span>ใน<span class="nw">เดือนเกิด</span> (หากมี) จะพิจารณาจาก<span class="nw">วันเดือนปีเกิด</span>ที่สมาชิกให้ไว้ในขณะสมัครสมาชิก</li>
+        <li>บริษัทอาจขอ<span class="nw">ตรวจสอบ</span><span class="nw">บัญชีสมาชิก</span>หรือ<span class="nw">เอกสารยืนยันตัวตน</span>ก่อน<span class="nw">ส่งมอบ</span><span class="nw">ของรางวัล</span>หรือ<span class="nw">สิทธิประโยชน์</span></li>
+      </ol>
+      <h4><span class="nw">การติดต่อ</span>สื่อสารและ<span class="nw">ข่าวสาร</span></h4>
+      <ol>
+        <li>การรับ<span class="nw">ข่าวสาร</span> <span class="nw">โปรโมชัน</span> <span class="nw">สิทธิประโยชน์</span> และ<span class="nw">ข้อเสนอพิเศษ</span>จากบริษัทและ<span class="nw">แบรนด์ในเครือ</span> ถือเป็นส่วนหนึ่งของการ<span class="nw">ให้บริการ</span>สมาชิก โดยสมาชิกตกลงรับข้อมูล<span class="nw">ดังกล่าว</span>ผ่าน LINE <span class="nw">ข้อความสั้น</span> (SMS) โทรศัพท์ และช่องทาง<span class="nw">การติดต่อ</span>อื่นที่สมาชิกให้ไว้</li>
+        <li>บริษัทอาจนำข้อมูลของสมาชิก เช่น ข้อมูลการ<span class="nw">ใช้บริการ</span> <span class="nw">ความชอบ</span> เพศ และ<span class="nw">วันเดือนปีเกิด</span> มาใช้ในการคัดเลือกและนำเสนอ<span class="nw">ข่าวสาร</span>หรือ<span class="nw">สิทธิประโยชน์</span>ที่<span class="nw">เหมาะสม</span>กับสมาชิกแต่ละราย</li>
+        <li>บริษัทอาจติดต่อสมาชิกเพื่อแจ้งข้อมูลที่<span class="nw">เกี่ยวข้อง</span>กับ<span class="nw">บัญชีสมาชิก</span> <span class="nw">คะแนนสะสม</span> <span class="nw">สิทธิประโยชน์</span> และการ<span class="nw">เปลี่ยนแปลง</span><span class="nw">ข้อกำหนด</span> หรือเพื่อสอบถาม<span class="nw">ความคิดเห็น</span>เกี่ยวกับ<span class="nw">สินค้าและบริการ</span></li>
+        <li>การแจ้งหรือการส่งข้อความไปยังช่องทางที่สมาชิกให้ไว้ ให้ถือว่าสมาชิกได้รับทราบแล้ว</li>
+      </ol>
+      <h4>หน้าที่ของสมาชิกและข้อห้าม</h4>
+      <p>สมาชิกต้องไม่กระทำการดังต่อไปนี้</p>
+      <ol>
+        <li>ให้ข้อมูลอันเป็นเท็จ หรือใช้ข้อมูลหรือ<span class="nw">หมายเลขโทรศัพท์</span>ของบุคคลอื่นในการสมัครสมาชิก</li>
+        <li><span class="nw">สะสมคะแนน</span>จากรายการที่ตนมิได้เป็นผู้ซื้อสินค้าหรือ<span class="nw">ใช้บริการ</span> หรือนำ<span class="nw">คะแนนสะสม</span>ของบุคคลอื่นมาใช้<span class="nw">โดยมิชอบ</span></li>
+        <li>ซื้อขาย โอน หรือ<span class="nw">แลกเปลี่ยน</span><span class="nw">บัญชีสมาชิก</span> <span class="nw">คะแนนสะสม</span> หรือ<span class="nw">สิทธิประโยชน์</span> เพื่อ<span class="nw">ประโยชน์ทางการค้า</span>หรือประโยชน์อื่นใด<span class="nw">โดยมิชอบ</span></li>
+        <li>ใช้<span class="nw">โปรแกรมคอมพิวเตอร์</span> <span class="nw">ระบบอัตโนมัติ</span> หรือวิธีการใด ๆ เพื่อเข้าถึง <span class="nw">แทรกแซง</span> หรือ<span class="nw">รบกวน</span>การทำงานของระบบสมาชิก</li>
+        <li>กระทำการใดที่ขัดต่อกฎหมาย <span class="nw">ความสงบเรียบร้อย</span> หรือ<span class="nw">ศีลธรรมอันดี</span>ของประชาชน หรือก่อให้เกิด<span class="nw">ความเสียหาย</span>แก่บริษัท</li>
+      </ol>
+      <h4>การ<span class="nw">ระงับ</span>และการสิ้นสุด<span class="nw">สมาชิกภาพ</span></h4>
+      <ol>
+        <li>บริษัทสงวนสิทธิ์ในการ<span class="nw">ระงับ</span>การใช้<span class="nw">บัญชีสมาชิก</span>เป็นการชั่วคราว หรือ<span class="nw">ยกเลิก</span><span class="nw">สมาชิกภาพ</span> ตลอดจน<span class="nw">เพิกถอน</span><span class="nw">คะแนนสะสม</span>และ<span class="nw">สิทธิประโยชน์</span><span class="nw">ทั้งหมดหรือบางส่วน</span> โดยไม่จำต้องแจ้งให้ทราบล่วงหน้า หากพบหรือมีเหตุอันควรสงสัยว่ามีการกระทำตาม<span class="nw">ข้อ 7</span> หรือการกระทำที่ไม่เป็นไปตาม<span class="nw">ข้อกำหนด</span>นี้</li>
+        <li>บริษัทอาจ<span class="nw">ยกเลิก</span><span class="nw">บัญชีสมาชิก</span>ที่<span class="nw">ไม่มีการใช้งาน</span>เป็น<span class="nw">ระยะเวลา</span>ตามที่บริษัท<span class="nw">กำหนด</span></li>
+        <li>เมื่อ<span class="nw">สมาชิกภาพ</span>สิ้นสุดลงไม่ว่าด้วยเหตุใด <span class="nw">คะแนนสะสม</span>และ<span class="nw">สิทธิประโยชน์</span>คงเหลือทั้งหมดจะสิ้นสุดลงทันที และไม่สามารถ<span class="nw">เรียกคืน</span>ได้</li>
+      </ol>
+      <h4>การ<span class="nw">เปลี่ยนแปลง</span>หรือ<span class="nw">ยกเลิก</span><span class="nw">โปรแกรมสมาชิก</span></h4>
+      <ol>
+        <li>บริษัทสงวนสิทธิ์ในการแก้ไข <span class="nw">เปลี่ยนแปลง</span> เพิ่มเติม <span class="nw">ระงับ</span> หรือ<span class="nw">ยกเลิก</span><span class="nw">ข้อกำหนด</span> <span class="nw">สิทธิประโยชน์</span> <span class="nw">อัตราการสะสมคะแนน</span> <span class="nw">ของรางวัล</span> หรือ<span class="nw">โปรแกรมสมาชิก</span> ไม่ว่า<span class="nw">ทั้งหมดหรือบางส่วน</span></li>
+        <li>บริษัทจะ<span class="nw">ประกาศ</span>การ<span class="nw">เปลี่ยนแปลง</span>ผ่านช่องทางที่บริษัทเห็นสมควร และการ<span class="nw">เปลี่ยนแปลง</span>จะมีผลนับแต่วันที่ระบุใน<span class="nw">ประกาศ</span></li>
+        <li><span class="nw">การใช้งาน</span><span class="nw">โปรแกรมสมาชิก</span>ต่อไป<span class="nw">ภายหลัง</span>การ<span class="nw">เปลี่ยนแปลง</span>มีผล ให้ถือว่าสมาชิกยอมรับ<span class="nw">ข้อกำหนด</span>ที่มีการ<span class="nw">เปลี่ยนแปลง</span>แล้ว</li>
+      </ol>
+      <h4>ข้อจำกัดความรับผิด</h4>
+      <ol>
+        <li>บริษัทไม่ต้องรับผิดชอบต่อ<span class="nw">ความเสียหาย</span>ที่เกิดจากการที่สมาชิกให้ข้อมูลไม่ถูกต้อง การที่สมาชิกไม่ปฏิบัติตาม<span class="nw">ข้อกำหนด</span>นี้ หรือการใช้<span class="nw">บัญชีสมาชิก</span>โดยบุคคลอื่น</li>
+        <li>บริษัทไม่ต้องรับผิดชอบต่อความขัดข้องของระบบ <span class="nw">เครือข่ายโทรศัพท์</span> <span class="nw">แพลตฟอร์ม</span> LINE หรือระบบของ<span class="nw">ผู้ให้บริการ</span>ภายนอก ที่อยู่<span class="nw">นอกเหนือการควบคุม</span>ของบริษัท</li>
+        <li>ความรับผิดของบริษัทเกี่ยวกับ<span class="nw">โปรแกรมสมาชิก</span>ไม่ว่ากรณีใด จำกัดเพียง<span class="nw">มูลค่า</span>ของ<span class="nw">สิทธิประโยชน์</span>ที่<span class="nw">เกี่ยวข้อง</span>เท่านั้น ทั้งนี้ เท่าที่กฎหมายอนุญาต</li>
+      </ol>
+      <h4><span class="nw">เหตุสุดวิสัย</span></h4>
+      <p>บริษัทไม่ต้องรับผิดชอบต่อการไม่ปฏิบัติหรือการปฏิบัติล่าช้าตาม<span class="nw">ข้อกำหนด</span>นี้ อันเนื่องมาจาก<span class="nw">เหตุสุดวิสัย</span>หรือเหตุการณ์ที่อยู่<span class="nw">นอกเหนือการควบคุม</span>ของบริษัท</p>
+      <h4><span class="nw">ข้อมูลส่วนบุคคล</span></h4>
+      <p>บริษัทจะ<span class="nw">เก็บรวบรวม</span> ใช้ และเปิดเผย<span class="nw">ข้อมูลส่วนบุคคล</span>ของสมาชิกตามนโยบาย<span class="nw">ความเป็นส่วนตัว</span>ของบริษัท ซึ่งถือเป็นส่วนหนึ่งของ<span class="nw">ข้อกำหนด</span>นี้</p>
+      <h4><span class="nw">ข้อกำหนด</span>ทั่วไป</h4>
+      <ol>
+        <li>หาก<span class="nw">ข้อกำหนด</span>ข้อใด<span class="nw">ไม่สมบูรณ์</span>หรือใช้บังคับไม่ได้ ให้<span class="nw">ข้อกำหนด</span>ข้ออื่นยังคงมีผลใช้บังคับต่อไป</li>
+        <li>การที่บริษัทมิได้ใช้สิทธิตาม<span class="nw">ข้อกำหนด</span>นี้ ไม่ถือเป็นการ<span class="nw">สละสิทธิ</span>ของบริษัท</li>
+        <li>กรณีมี<span class="nw">ข้อโต้แย้ง</span>เกี่ยวกับ<span class="nw">คะแนนสะสม</span> <span class="nw">สิทธิประโยชน์</span> หรือการ<span class="nw">ตีความ</span><span class="nw">ข้อกำหนด</span>นี้ ให้ถือตาม<span class="nw">คำวินิจฉัย</span>ของบริษัทเป็นที่สุด</li>
+        <li><span class="nw">ข้อกำหนด</span>นี้อยู่<span class="nw">ภายใต้</span>บังคับและให้<span class="nw">ตีความ</span>ตาม<span class="nw">กฎหมายไทย</span></li>
+      </ol>
+    </div>
+    <div class="doc hidden" id="docPrivacy">
+      <h3>นโยบาย<span class="nw">ความเป็นส่วนตัว</span>สำหรับสมาชิก</h3>
+      <div class="ver"><span class="nw">ฉบับที่ 1</span> · <span class="nw">ปรับปรุง</span>ล่าสุด <span class="nw">พฤศจิกายน 2569</span></div>
+      <p><span class="nw">บริษัท หม่าม้าปุก กรุ๊ป จำกัด</span> (“บริษัท”) ในฐานะ<span class="nw">ผู้ควบคุมข้อมูล</span>ส่วนบุคคล ตระหนักถึงความสำคัญของ<span class="nw">ข้อมูลส่วนบุคคล</span> จึงจัดทำนโยบาย<span class="nw">ความเป็นส่วนตัว</span>ฉบับนี้ (“นโยบาย”) เพื่อแจ้งให้สมาชิก <span class="nw">ผู้สมัคร</span>สมาชิก และ<span class="nw">ผู้ใช้บริการ</span> (“ท่าน”) ทราบถึงรายละเอียดเกี่ยวกับการ<span class="nw">เก็บรวบรวม</span> ใช้ เปิดเผย และคุ้มครอง<span class="nw">ข้อมูลส่วนบุคคล</span>ของท่าน ตาม<span class="nw">พระราชบัญญัติ</span>คุ้มครอง<span class="nw">ข้อมูลส่วนบุคคล</span> <span class="nw">พ.ศ. 2562</span> และกฎหมายที่<span class="nw">เกี่ยวข้อง</span></p>
+      <h4>ขอบเขตการใช้บังคับ</h4>
+      <p>นโยบายนี้ใช้บังคับกับ<span class="nw">ข้อมูลส่วนบุคคล</span>ที่บริษัท<span class="nw">เก็บรวบรวม</span>ผ่าน<span class="nw">โปรแกรมสมาชิก</span> บัญชี <span class="nw">LINE Official Account</span> ของบริษัท หน้าเว็บไซต์หรือแอปพลิเคชันที่<span class="nw">เกี่ยวข้อง</span> สาขาที่<span class="nw">ร่วมรายการ</span> และช่องทางอื่นที่<span class="nw">เกี่ยวข้อง</span>กับการ<span class="nw">ให้บริการ</span>สมาชิก</p>
+      <h4>คำนิยาม</h4>
+      <ol>
+        <li>“<span class="nw">ข้อมูลส่วนบุคคล</span>” หมายถึง ข้อมูลเกี่ยวกับบุคคลซึ่งทำให้สามารถ<span class="nw">ระบุตัวบุคคล</span>นั้นได้ <span class="nw">ไม่ว่าทางตรงหรือทางอ้อม</span></li>
+        <li>“<span class="nw">การประมวลผล</span>” หมายถึง การ<span class="nw">ดำเนินการ</span>ใด ๆ กับ<span class="nw">ข้อมูลส่วนบุคคล</span> เช่น การ<span class="nw">เก็บรวบรวม</span> บันทึก <span class="nw">จัดระบบ</span> จัดเก็บ <span class="nw">ปรับเปลี่ยน</span> ใช้ วิเคราะห์ เปิดเผย <span class="nw">ส่งต่อ</span> หรือลบ</li>
+        <li>“<span class="nw">ผู้ประมวลผลข้อมูลส่วนบุคคล</span>” หมายถึง บุคคลหรือ<span class="nw">นิติบุคคล</span>ที่<span class="nw">ดำเนินการ</span>เกี่ยวกับ<span class="nw">ข้อมูลส่วนบุคคล</span><span class="nw">ตามคำสั่ง</span>หรือ<span class="nw">ในนามของ</span>บริษัท</li>
+      </ol>
+      <h4><span class="nw">ข้อมูลส่วนบุคคล</span>ที่บริษัท<span class="nw">เก็บรวบรวม</span></h4>
+      <ol>
+        <li>ข้อมูลเกี่ยวกับตัวท่าน เช่น ชื่อ นามสกุล ชื่อเล่น เพศ และ<span class="nw">วันเดือนปีเกิด</span></li>
+        <li>ข้อมูล<span class="nw">การติดต่อ</span> เช่น <span class="nw">หมายเลขโทรศัพท์</span> และช่องทาง<span class="nw">การติดต่อ</span>อื่นที่ท่านให้ไว้</li>
+        <li>ข้อมูลบัญชี เช่น <span class="nw">รหัสผู้ใช้</span> <span class="nw">ชื่อที่แสดง</span> และ<span class="nw">รูปโปรไฟล์</span>ของบัญชี LINE สถานะการเป็นเพื่อนกับบัญชี <span class="nw">LINE Official Account</span> ของบริษัท <span class="nw">รหัสสมาชิก</span> และ<span class="nw">สถานะสมาชิก</span></li>
+        <li>ข้อมูลการ<span class="nw">ใช้บริการ</span>และการทำธุรกรรม เช่น <span class="nw">วันและเวลา</span>ที่<span class="nw">ใช้บริการ</span> สาขา <span class="nw">ยอดใช้จ่าย</span> <span class="nw">รายการสินค้า</span> <span class="nw">คะแนนสะสม</span> การแลก<span class="nw">ของรางวัล</span> และการใช้<span class="nw">สิทธิประโยชน์</span></li>
+        <li>ข้อมูลความสนใจและ<span class="nw">ความชอบ</span> เช่น สาขาที่<span class="nw">ใช้บริการ</span>เป็นประจำ <span class="nw">ช่วงเวลา</span>และรูปแบบการ<span class="nw">ใช้บริการ</span> <span class="nw">ความชอบ</span><span class="nw">ด้านอาหาร</span> ช่องทางที่ท่านรู้จักบริษัท <span class="nw">ความคิดเห็น</span> และคำตอบที่ท่านให้แก่บริษัท</li>
+        <li>ข้อมูลทางเทคนิค เช่น <span class="nw">ประเภทอุปกรณ์</span> <span class="nw">ระบบปฏิบัติการ</span> <span class="nw">การตั้งค่าภาษา</span> <span class="nw">วันและเวลา</span>ที่<span class="nw">เข้าใช้งาน</span> ประวัติการ<span class="nw">เข้าใช้งาน</span>ระบบ และช่องทางที่ท่านเข้าถึงระบบ</li>
+        <li>ข้อมูล<span class="nw">การติดต่อ</span>สื่อสาร เช่น ข้อความที่ท่านติดต่อกับบริษัท และการตอบสนองต่อ<span class="nw">ข่าวสาร</span>ที่บริษัทส่งถึงท่าน</li>
+        <li>ข้อมูลอื่นที่ท่านให้ไว้แก่บริษัท หรือที่บริษัทได้รับจากการ<span class="nw">ให้บริการ</span>แก่ท่าน</li>
+      </ol>
+      <h4>แหล่งที่มาของ<span class="nw">ข้อมูลส่วนบุคคล</span></h4>
+      <ol>
+        <li>จากท่านโดยตรง เช่น เมื่อท่านสมัครสมาชิก ตอบคำถาม <span class="nw">ใช้บริการ</span> หรือติดต่อบริษัท</li>
+        <li>จาก<span class="nw">แพลตฟอร์ม</span> LINE ตามขอบเขตที่ท่านอนุญาตเมื่อ<span class="nw">เข้าใช้งาน</span>ผ่านบัญชี LINE</li>
+        <li>จากการ<span class="nw">ใช้บริการ</span>ของท่าน ณ สาขาที่<span class="nw">ร่วมรายการ</span> และช่องทางต่าง ๆ ของบริษัท</li>
+        <li>จาก<span class="nw">บริษัทในเครือ</span> คู่ค้าทางธุรกิจ หรือ<span class="nw">ผู้ให้บริการ</span>ที่<span class="nw">เกี่ยวข้อง</span> ตามที่กฎหมายอนุญาต</li>
+      </ol>
+      <h4><span class="nw">วัตถุประสงค์</span>และฐาน<span class="nw">ทางกฎหมาย</span>ใน<span class="nw">การประมวลผล</span></h4>
+      <ol>
+        <li>เพื่อพิจารณาการสมัคร <span class="nw">ยืนยันตัวตน</span> ยืนยัน<span class="nw">หมายเลขโทรศัพท์</span> และบริหารจัดการ<span class="nw">บัญชีสมาชิก</span> (ฐานการ<span class="nw">ปฏิบัติตามสัญญา</span>)</li>
+        <li>เพื่อบันทึก คำนวณ และบริหาร<span class="nw">คะแนนสะสม</span> การแลก<span class="nw">ของรางวัล</span> และการมอบ<span class="nw">สิทธิประโยชน์</span> รวมถึง<span class="nw">สิทธิพิเศษ</span>ในโอกาสต่าง ๆ (ฐานการ<span class="nw">ปฏิบัติตามสัญญา</span>)</li>
+        <li>เพื่อส่ง<span class="nw">ข่าวสาร</span> <span class="nw">โปรโมชัน</span> <span class="nw">สิทธิประโยชน์</span> และ<span class="nw">ข้อเสนอพิเศษ</span>ของบริษัทและ<span class="nw">แบรนด์ในเครือ</span> (ฐาน<span class="nw">ความยินยอม</span> ฐานการ<span class="nw">ปฏิบัติตามสัญญา</span> และฐาน<span class="nw">ประโยชน์โดยชอบด้วยกฎหมาย</span>)</li>
+        <li>เพื่อ<span class="nw">วิเคราะห์ข้อมูล</span> <span class="nw">จัดกลุ่ม</span>สมาชิก ศึกษาพฤติกรรมและความสนใจ และนำเสนอข้อมูลที่<span class="nw">เหมาะสม</span>กับท่านแต่ละราย (ฐาน<span class="nw">ประโยชน์โดยชอบด้วยกฎหมาย</span>)</li>
+        <li>เพื่อจัดทำ<span class="nw">สถิติ</span> วิจัย วางแผน<span class="nw">การตลาด</span> และพัฒนาสินค้า บริการ สาขา และกิจกรรมของบริษัท (ฐาน<span class="nw">ประโยชน์โดยชอบด้วยกฎหมาย</span>)</li>
+        <li>เพื่อติดต่อสื่อสาร ตอบ<span class="nw">ข้อสอบถาม</span> จัดการ<span class="nw">ข้อร้องเรียน</span> และสอบถาม<span class="nw">ความคิดเห็น</span>เกี่ยวกับ<span class="nw">สินค้าและบริการ</span> (ฐานการ<span class="nw">ปฏิบัติตามสัญญา</span>และฐาน<span class="nw">ประโยชน์โดยชอบด้วยกฎหมาย</span>)</li>
+        <li>เพื่อรักษาความปลอดภัยของระบบ <span class="nw">ตรวจสอบ</span> ป้องกัน และ<span class="nw">ระงับ</span>การ<span class="nw">ทุจริต</span>หรือ<span class="nw">การใช้งาน</span><span class="nw">โดยมิชอบ</span> (ฐาน<span class="nw">ประโยชน์โดยชอบด้วยกฎหมาย</span>)</li>
+        <li>เพื่อปฏิบัติตามกฎหมายและคำสั่งของหน่วยงานที่มีอำนาจ รวมถึงเพื่อการก่อตั้ง<span class="nw">สิทธิเรียกร้อง</span> การปฏิบัติตามหรือการใช้<span class="nw">สิทธิเรียกร้อง</span> หรือการ<span class="nw">ยกขึ้นต่อสู้</span>ซึ่ง<span class="nw">สิทธิเรียกร้อง</span>ตามกฎหมาย (ฐานการปฏิบัติตามกฎหมายและฐาน<span class="nw">ประโยชน์โดยชอบด้วยกฎหมาย</span>)</li>
+        <li>เพื่อ<span class="nw">วัตถุประสงค์</span>อื่นที่บริษัทจะแจ้งให้ท่านทราบ หรือขอ<span class="nw">ความยินยอม</span>จากท่าน<span class="nw">เป็นคราว ๆ ไป</span> (ฐาน<span class="nw">ความยินยอม</span>หรือฐานอื่นตามที่กฎหมาย<span class="nw">กำหนด</span>)</li>
+      </ol>
+      <h4>การวิเคราะห์และการนำเสนอข้อมูลที่<span class="nw">เหมาะสม</span>กับท่าน</h4>
+      <p>บริษัทอาจนำข้อมูลของท่าน เช่น ข้อมูลการ<span class="nw">ใช้บริการ</span> <span class="nw">ความชอบ</span> ช่วงอายุ เพศ สาขาที่<span class="nw">ใช้บริการ</span> และการตอบสนองต่อ<span class="nw">ข่าวสาร</span> มาวิเคราะห์และ<span class="nw">จัดกลุ่ม</span> เพื่อคัดเลือกและนำเสนอ<span class="nw">ข่าวสาร</span> <span class="nw">สิทธิประโยชน์</span> และข้อเสนอที่<span class="nw">เหมาะสม</span>กับท่าน ทั้งนี้ การ<span class="nw">ดำเนินการ</span><span class="nw">ดังกล่าว</span>ไม่ก่อให้เกิด<span class="nw">ผลทางกฎหมาย</span>ต่อท่าน</p>
+      <h4>คุกกี้และเทคโนโลยีที่คล้ายกัน</h4>
+      <p>ระบบสมาชิกอาจใช้<span class="nw">พื้นที่จัดเก็บข้อมูล</span>บนอุปกรณ์ของท่าน หรือเทคโนโลยีที่คล้ายกัน เพื่อจดจำการ<span class="nw">เข้าใช้งาน</span> เพิ่มความรวดเร็วในการ<span class="nw">แสดงผล</span> และ<span class="nw">อำนวยความสะดวก</span>ใน<span class="nw">การใช้งาน</span></p>
+      <h4>การเปิดเผย<span class="nw">ข้อมูลส่วนบุคคล</span></h4>
+      <p>บริษัทอาจเปิดเผยข้อมูลของท่านแก่บุคคลดังต่อไปนี้ <span class="nw">ภายใต้</span><span class="nw">วัตถุประสงค์</span>ที่ระบุไว้ในนโยบายนี้</p>
+      <ol>
+        <li><span class="nw">บริษัทในเครือ</span> และแบรนด์<span class="nw">ภายใต้</span><span class="nw">การดำเนินงาน</span>ของบริษัทหรือ<span class="nw">บริษัทในเครือ</span></li>
+        <li><span class="nw">ผู้ประมวลผลข้อมูลส่วนบุคคล</span>และ<span class="nw">ผู้ให้บริการ</span>ที่บริษัทว่าจ้าง เช่น <span class="nw">ผู้ให้บริการ</span>ระบบ<span class="nw">สารสนเทศ</span> <span class="nw">ระบบคลาวด์</span> <span class="nw">การจัดเก็บข้อมูล</span> การส่งข้อความ การ<span class="nw">วิเคราะห์ข้อมูล</span> และ<span class="nw">การตลาด</span></li>
+        <li><span class="nw">ผู้ให้บริการ</span><span class="nw">แพลตฟอร์ม</span> เช่น LINE เพื่อการ<span class="nw">ให้บริการ</span>ผ่าน<span class="nw">แพลตฟอร์ม</span><span class="nw">ดังกล่าว</span></li>
+        <li>คู่ค้าทางธุรกิจที่ร่วมจัดกิจกรรม รายการ<span class="nw">ส่งเสริมการขาย</span> หรือมอบ<span class="nw">สิทธิประโยชน์</span>แก่สมาชิก</li>
+        <li><span class="nw">ที่ปรึกษาทางวิชาชีพ</span> เช่น <span class="nw">ผู้สอบบัญชี</span> และ<span class="nw">ที่ปรึกษากฎหมาย</span></li>
+        <li><span class="nw">ผู้รับโอนสิทธิ</span>หรือหน้าที่ กรณีมีการ<span class="nw">ปรับโครงสร้างองค์กร</span> การ<span class="nw">ควบรวมกิจการ</span> หรือการ<span class="nw">โอนกิจการ</span></li>
+        <li><span class="nw">หน่วยงานของรัฐ</span> ศาล หรือบุคคลที่มีอำนาจตามกฎหมาย</li>
+      </ol>
+      <p>ทั้งนี้ บริษัทจะ<span class="nw">กำหนด</span>ให้<span class="nw">ผู้รับข้อมูล</span>มี<span class="nw">มาตรการ</span>คุ้มครอง<span class="nw">ข้อมูลส่วนบุคคล</span>ที่<span class="nw">เหมาะสม</span>ตามที่กฎหมาย<span class="nw">กำหนด</span></p>
+      <h4>การส่งหรือโอนข้อมูลไป<span class="nw">ต่างประเทศ</span></h4>
+      <p>ข้อมูลของท่านอาจได้รับการจัดเก็บหรือประมวลผลบน<span class="nw">ระบบคลาวด์</span>หรือระบบของ<span class="nw">ผู้ให้บริการ</span>ที่ตั้งอยู่ใน<span class="nw">ต่างประเทศ</span> บริษัทจะ<span class="nw">ดำเนินการ</span>ให้การส่งหรือโอนข้อมูล<span class="nw">ดังกล่าว</span>เป็นไปตาม<span class="nw">หลักเกณฑ์</span>ที่กฎหมายคุ้มครอง<span class="nw">ข้อมูลส่วนบุคคล</span><span class="nw">กำหนด</span></p>
+      <h4><span class="nw">ระยะเวลา</span>การเก็บรักษาข้อมูล</h4>
+      <ol>
+        <li>บริษัทจะเก็บรักษาข้อมูลของท่าน<span class="nw">ตลอดระยะเวลา</span>ที่ท่านเป็นสมาชิก และต่อไปเท่าที่จำเป็นตาม<span class="nw">วัตถุประสงค์</span>ที่ระบุไว้ในนโยบายนี้</li>
+        <li><span class="nw">ภายหลัง</span><span class="nw">สมาชิกภาพ</span>สิ้นสุดลง บริษัทอาจเก็บรักษาข้อมูลต่อไปตาม<span class="nw">ระยะเวลา</span>ที่จำเป็นเพื่อการปฏิบัติตามกฎหมาย การ<span class="nw">ตรวจสอบ</span> หรือการก่อตั้ง การใช้ หรือการ<span class="nw">ยกขึ้นต่อสู้</span>ซึ่ง<span class="nw">สิทธิเรียกร้อง</span> ตาม<span class="nw">อายุความ</span>ที่กฎหมาย<span class="nw">กำหนด</span></li>
+        <li>เมื่อพ้น<span class="nw">ระยะเวลา</span><span class="nw">ดังกล่าว</span> บริษัทจะลบ <span class="nw">ทำลาย</span> หรือทำให้ข้อมูลเป็นข้อมูลที่<span class="nw">ไม่สามารถระบุตัวบุคคลได้</span></li>
+      </ol>
+      <h4>การรักษา<span class="nw">ความมั่นคงปลอดภัย</span>ของข้อมูล</h4>
+      <p>บริษัทจัดให้มี<span class="nw">มาตรการ</span>รักษา<span class="nw">ความมั่นคงปลอดภัย</span>ที่<span class="nw">เหมาะสม</span> ทั้งด้าน<span class="nw">การบริหารจัดการ</span> ด้านเทคนิค และด้านกายภาพ รวมถึงการจำกัดสิทธิการเข้าถึงข้อมูลเฉพาะผู้ที่มีหน้าที่<span class="nw">เกี่ยวข้อง</span> เพื่อป้องกันการ<span class="nw">สูญหาย</span> การเข้าถึง ใช้ <span class="nw">เปลี่ยนแปลง</span> แก้ไข หรือเปิดเผยข้อมูลโดย<span class="nw">ปราศจากอำนาจ</span>หรือ<span class="nw">โดยมิชอบ</span></p>
+      <h4>สิทธิของ<span class="nw">เจ้าของข้อมูล</span>ส่วนบุคคล</h4>
+      <p><span class="nw">ภายใต้</span><span class="nw">หลักเกณฑ์</span> <span class="nw">เงื่อนไข</span> และ<span class="nw">ข้อยกเว้น</span>ที่กฎหมาย<span class="nw">กำหนด</span> ท่านมีสิทธิดังต่อไปนี้</p>
+      <ol>
+        <li>สิทธิขอเข้าถึงและขอรับสำเนา<span class="nw">ข้อมูลส่วนบุคคล</span>ของท่าน</li>
+        <li>สิทธิขอให้แก้ไข<span class="nw">ข้อมูลส่วนบุคคล</span>ให้ถูกต้อง เป็นปัจจุบัน และสมบูรณ์</li>
+        <li>สิทธิขอให้ลบ <span class="nw">ทำลาย</span> หรือทำให้ข้อมูลเป็นข้อมูลที่<span class="nw">ไม่สามารถระบุตัวบุคคลได้</span></li>
+        <li>สิทธิขอให้<span class="nw">ระงับ</span>การใช้<span class="nw">ข้อมูลส่วนบุคคล</span></li>
+        <li>สิทธิคัดค้านการ<span class="nw">เก็บรวบรวม</span> ใช้ หรือเปิดเผย<span class="nw">ข้อมูลส่วนบุคคล</span></li>
+        <li>สิทธิขอรับ หรือขอให้ส่งหรือโอน<span class="nw">ข้อมูลส่วนบุคคล</span></li>
+        <li>สิทธิถอน<span class="nw">ความยินยอม</span> สำหรับ<span class="nw">การประมวลผล</span>ที่อาศัยฐาน<span class="nw">ความยินยอม</span></li>
+        <li>สิทธิ<span class="nw">ร้องเรียน</span>ต่อ<span class="nw">สำนักงานคณะกรรมการ</span>คุ้มครอง<span class="nw">ข้อมูลส่วนบุคคล</span></li>
+      </ol>
+      <h4>การใช้สิทธิของ<span class="nw">เจ้าของข้อมูล</span>ส่วนบุคคล</h4>
+      <ol>
+        <li>ท่านสามารถยื่นคำขอใช้สิทธิผ่านช่องทาง<span class="nw">การติดต่อ</span>ตาม<span class="nw">ข้อ 18</span> โดยบริษัทอาจขอข้อมูลหรือเอกสารเพื่อ<span class="nw">ยืนยันตัวตน</span>ของท่านก่อน<span class="nw">ดำเนินการ</span></li>
+        <li>บริษัทจะพิจารณาและแจ้งผลการ<span class="nw">ดำเนินการ</span>ภายใน<span class="nw">ระยะเวลา</span>ที่กฎหมาย<span class="nw">กำหนด</span></li>
+        <li>บริษัทอาจปฏิเสธคำขอในกรณีที่กฎหมาย<span class="nw">กำหนด</span>หรืออนุญาต เช่น กรณีที่บริษัทมีความจำเป็นต้องเก็บรักษาข้อมูลเพื่อปฏิบัติตามกฎหมาย หรือเพื่อการก่อตั้ง การใช้ หรือการ<span class="nw">ยกขึ้นต่อสู้</span>ซึ่ง<span class="nw">สิทธิเรียกร้อง</span>ตามกฎหมาย</li>
+        <li>การใช้สิทธิ<span class="nw">บางประการ</span>อาจทำให้บริษัทไม่สามารถ<span class="nw">ให้บริการ</span>สมาชิกหรือ<span class="nw">สิทธิประโยชน์</span>แก่ท่านได้<span class="nw">ทั้งหมดหรือบางส่วน</span></li>
+        <li>การถอน<span class="nw">ความยินยอม</span>ไม่กระทบต่อ<span class="nw">การประมวลผล</span>ที่ได้<span class="nw">ดำเนินการ</span>ไปแล้วก่อนการถอน<span class="nw">ความยินยอม</span></li>
+      </ol>
+      <h4>ผลของการไม่ให้<span class="nw">ข้อมูลส่วนบุคคล</span></h4>
+      <p>หากท่านไม่ให้<span class="nw">ข้อมูลที่จำเป็น</span>ต่อการสมัครหรือการ<span class="nw">ให้บริการ</span> บริษัท<span class="nw">อาจไม่สามารถ</span>รับสมัครสมาชิก หรือ<span class="nw">ให้บริการ</span>และ<span class="nw">สิทธิประโยชน์</span><span class="nw">บางประการ</span>แก่ท่านได้</p>
+      <h4><span class="nw">ข้อมูลส่วนบุคคล</span>ของ<span class="nw">ผู้เยาว์</span></h4>
+      <p>กรณีท่านเป็น<span class="nw">ผู้เยาว์</span> ท่านต้องได้รับ<span class="nw">ความยินยอม</span>จาก<span class="nw">ผู้ใช้อำนาจปกครอง</span>ก่อนให้<span class="nw">ข้อมูลส่วนบุคคล</span>แก่บริษัท ตามที่กฎหมาย<span class="nw">กำหนด</span></p>
+      <h4>บริการของ<span class="nw">บุคคลภายนอก</span></h4>
+      <p>ระบบสมาชิก<span class="nw">ให้บริการ</span>ผ่าน<span class="nw">แพลตฟอร์ม</span> LINE <span class="nw">การใช้งาน</span><span class="nw">แพลตฟอร์ม</span><span class="nw">ดังกล่าว</span>อยู่<span class="nw">ภายใต้</span><span class="nw">ข้อกำหนด</span>และนโยบาย<span class="nw">ความเป็นส่วนตัว</span>ของ<span class="nw">ผู้ให้บริการ</span><span class="nw">แพลตฟอร์ม</span>นั้น</p>
+      <h4>การ<span class="nw">ปรับปรุง</span>นโยบาย</h4>
+      <p>บริษัทอาจ<span class="nw">ปรับปรุง</span>หรือแก้ไขนโยบายนี้<span class="nw">เป็นครั้งคราว</span> เพื่อให้<span class="nw">สอดคล้อง</span>กับ<span class="nw">การดำเนินงาน</span>ของบริษัทและกฎหมายที่<span class="nw">เกี่ยวข้อง</span> โดยจะ<span class="nw">ประกาศ</span>นโยบาย<span class="nw">ฉบับปรับปรุง</span>ผ่านช่องทางของบริษัท และให้มีผลนับแต่วันที่<span class="nw">ประกาศ</span></p>
+      <h4>ช่องทาง<span class="nw">การติดต่อ</span></h4>
+      <p>หากท่านมี<span class="nw">ข้อสงสัย</span>หรือ<span class="nw">ประสงค์</span>จะใช้สิทธิเกี่ยวกับ<span class="nw">ข้อมูลส่วนบุคคล</span> สามารถติดต่อบริษัทได้ที่</p>
+      <p><span class="nw">บริษัท หม่าม้าปุก กรุ๊ป จำกัด</span> (<span class="nw">สำนักงานใหญ่</span>)<br><span class="nw">เลขที่ 80</span> <span class="nw">ถนนริมคลองแสนแสบ</span> <span class="nw">แขวงบางกะปิ</span> <span class="nw">เขตห้วยขวาง</span> <span class="nw">กรุงเทพมหานคร 10310</span><br>หรือผ่าน <span class="nw">LINE Official Account</span> ของบริษัท</p>
+    </div>
+    <div class="foot"><button class="btn" type="button" onclick="acceptDoc()">รับทราบและยอมรับ</button></div>
+  </div>
+</div>
+
+<script>
+/* ===== ตั้งค่า ===== */
+const CONFIG = {
+  LIFF_ID:  'ใส่ LIFF ID',          // LINE Developers > LINE Login channel > LIFF
+  API_URL:  'https://script.google.com/macros/s/AKfycbzb0evhA4FrM7SZq-lQNCIRwIfhEuMMDeW8tJk4fKx0ofHEkmt2g9Gex4VG1AaqJl1Kfg/exec',
+  OA_ID:    '@844vizes',            // LINE ID ของร้าน (ปุ่มเพิ่มเพื่อนบนบัตรสมาชิก) ตอนทดลองใช้ Test Bot ย้ายไปบัญชีจริงเปลี่ยนเป็น @mamapook
+  LOGO_URL: ''                      // เว้นว่างได้ โลโก้ร้านฝังอยู่ในไฟล์นี้แล้ว
+};
+const POLICY_VERSION = '1';
+const GENDERS = ['ชาย', 'หญิง', 'ไม่ระบุ'];
+/* ================== */
+
+const DEMO = new URLSearchParams(location.search).has('demo') || CONFIG.LIFF_ID.indexOf('ใส่') === 0;
+const $ = id => document.getElementById(id);
+const VIEWS = ['vLoading', 'vForm', 'vOtp', 'vCard', 'vError'];
+const TH_MONTHS_S = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+const TH_MONTHS = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+const S = { idToken: '', key: 'demo', qr: '', src: '', branches: [], fav: '', gender: '', meta: {}, last: null, timer: null, busy: false,
+  pq: { qs: [], answers: {}, queue: [], done: 0, total: 0 } };
+
+const LOGO_DATA = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM8AAAFoCAMAAADHMV+PAAABIFBMVEWfZVk1KCaZXzyyi2/KopYbHiFuKyjgybw5KiJ/AACBLSu2hz65ioD/0WbgzMD48+H28d4AAABnAwPz6tkCAQEzJRwnGRE2KiGJhTTZ08IyJBtIOzFOQjfOx7eFe2/l3ct8c2iupphuZVpSAwONhXkXFhRkWU4uAgJTS0M5NC66tKajmo3Du6xbVEublIdzbGJVAACUjYH0t1YyJBsyJBsyJBsyJBs+PgAwJhe0rqAyJBtvZjSSeEdrWTSuh0nYpVRVVQC0lFDGmE8xGxs3NBqWkDxZVi14dDaGfDqOiUfkq1CXk0bW0L4+AADsuWb+w1vNpWOIaTjUzsB6JST+xmJyGBZFNx1hTCuGOTX31r83KiFEQh55dkqGbUO2m2IdIR5k1VdJAAAAYHRSTlP/E////////3gC/////////wD////9/f7//8n///////////////////////////8D//+sTY8sBBT/bv//////A///D////////////wT///////////////+x//////8pSeaHAAA3b0lEQVR42tV9B2PbSJKu7vbSi11yA8TAAEgCIilmigq2Jcv22JPDzszmvbB7//9fvKpuhI4ItGZ3Hm5urUCR+FDV1VVfhT47/3muq5cvW3778uXVz/S5Zz8Hlk/LL/7hxe3tw8Pd3Y287u4eHm5vX7wqf/vp1f8HeK6kWD67vb27eR7SFamX+Mnzm7vb28+koK5+yXikYF7c3j2XQMTdj9QrbH7x/O72xdOL6QnxkGReSSxRhSOMknS5KIrD4VAUi2WaRGGFK5KYXpV/+QvD04CJJJQoLcabdRZzzpqL8zhbb8ZFGklQ0ZNDeho8pGcv7sJSv8K0OK7jBgeA+I/RfyWueHss0rDUv/DuRfkevww8uABePTwvwSTFPlNFIhFxvED5XoDK9kVSQnr+8Eq8zy8Az1UtGgQzzRssKIR8Vix2uGrklS53i2KWb0vRESieTytIQkh/dzyE5kaCiYr7CgzP8umCECzGs02er9fb7Xa9zvPNbLogdItpLoQoIN0XkYR08+LjZXT2VGjSfVzeYLwpEAkKIrb0rpTb/axAVMUmLn8S79OnQnT2ketGaNooXKzx3un2s3G6Ssd5XC8c/L/qQqsANcQ4F6/M5EPg60U4qrTu6u+D5+r8sweJ5pBJyWTjZLUonzoZACitGyu/qP6pYMWbxSqpIGUHiQgtw9XfAQ9+5u1zgabIhGj4ZhktNpNSKoodY4Zdq4y4+GaSL6J0wyWiQiB6fvsRIjo7XTg3Yt0sJJp4nCSzuJJHdfMOPOqPJKZ4lqzGsXiXbCHW0c3pIjo7WThC1dJ7eR9FtLunZVAqV41J3L5cOuoPpBJChR7ud1Ep5XUqlO5kEZ2E59elcKIZF7IpokXWqJDnAudPKlz4RCQiPouEiD7DT/kb4bk6fyFWzkKYgcm0RMNOvwhStginnN4lXohV9OIkCZ0knwchnL1QkGO0zFQFs2/UkBC4BCVEm+3K99wIET38TeSDhoD2nBGiwE/epkku7BkY9w+ljWb1Uqm0sfqnUlAoX0xf50myJUTZ7lSzcDY4LngldG1MK4dPQ/y3WdeGIFxGum1Z4W/5jJQO33MsdO7V4DjibKgleCF0LaenuE1SaZRYy21Cuz0wXCFUuhRFRKISOvdiqFU4a6VobHHfCistdG0WztwLBzzWzSUdc5Oq3hd1Tlju23631YXn6mWLJViQRkyWSVaGaeotgQtPvUScvwdloxUvy5LlhLR50WIVfKzDmS/cxOj5ASka4yI4U6FrEaHSV7/6/DcFZ9U2WhsCueOqIrH2XzIujBfRliQ1FYvIuG7uHkSE7g5oz5yb/8uS1rCvcDQTtyt0rRYNaL4MLutJfnCsDYf6gWbwFJ3b0w9mI+c9CNbh104X4swV0jw8Vyga4zrS54zDtaL6YBm2eLYni7FmWYx+6picos1sT67Efr8m39uteortWIdCDfauW5Dk0PMHV2hx5g+ew2RZTMfGldPTW6ziektRdxYpG9TCbZaNgX2f8NkaZbVOcXUv2WFDsdw+Reke4rF4ZaWsvJFWpXPxakGAcvMGphgKhkqIftWG56oK0JDW2GQTl6FC7V4mvNYefR+lO5yhZGaLdYqQZzlKA28Xl9p2ORnj5l9s4wJt8TIvaHmsmaQbspllIfATkiVnzgh3km0qIuXO3HIN+ZQhzSKf+Awv42nKq+2/tFzl645xjje2p/8f8wWu6B3LSZ5ZMkFHgk33+Cj4ekrGghWIeprxHf624FnWeBCVmLj8IN9ugHFTHSz58dzJAG1bU0o8jjPjSsVjqzDEsdCxNcbbUOQ5Pvw1CSCZFBvGx5sZ3inqDK6oI9usCewU33w2YwX+3S7OUKe2xaTIdLNSfoOKYH54XPKT0iUXiO68eF6JICBdl0zAplgmK9u4LLgSPvPFhj5+u1nMSG34YoKrJsa/xSVE7zEx4jcW00/QShzJSctnY8Q+yxb0eVsMBytXr1qKi9C+AVzVm0xawW1quXkKns8EJShDmskMyYrpJt/iE4njiXLFoN3ilogQWr4FPWle4O3msbm/Ks+82VlRtBzFxw5ZVtC9sylKNOaK3cP/mdSfjXdBt5Jt880U7202kcFSKN08Bx6CM0rWZUgj6SdvYFY+xGx6JAHR09qhD5Rv4npdATRethEbVID4jMLsbDNei28xitou+GzCHBuBcaGVjKYToRnJSAN0psFBo0QWKtptS43iFdFUO/Uaa4vrhZYAISsmrIcLqiPbzzgrdyO8M3yjzT1PJrp01V1X3oAkh7a7SLh5caoBOqsM9Q3FNFy8gISk0kyMqQSAqkRks5ZZbbR5rVXgCBCgoQ5sjgSfDW5P+WRdVOyCGnfobH75VNeJePx8iYBuqiV0VoYBdyQdgrMOpedl7uDg2MiBtsnNmoHLtwaD1AE7OgIwNDjLyY4bn2E8DyVYKsJ7YddHZOVeNniuRBiQENrNaKP7ZOZb6/j4hjtigSHxnOJ3k0HMwPHgHGye/BO6W9SoRAQWV418RMy5Jjjh+jRCw/vjj6FJfG8NtclZhwRo2xi5M+F4k7bNyFsarZu9UnX3QSM1QWU3PG4lgJXPUt9IeRc1XoAm8aUzdA1xogoUAY1I5WZC4z6t5PNC2ALc7ARa/TZMctCpSb54DmjbUD/e/cS5Z7W4glowPngTfo+vIZvwopSPEE+IQTukB1+sDLZBaHH3Fa9/FaWcGcIw/mZSJEd3yOpVP9VcHVIy9mEpoLNSPAVJLeHmR4JqMI07sV9qPGTSX9yiOTMjUl0tt+jO77KKwFJV3GVJLHsHCa2UohTQGdo5Eg86HnG09oQBqpTUdVGT0UrcrexWhCcKBR5QHXL5bRM1xeQq54wDWB+mrqwaMdOZvXVEXkYobfaZ8AxGC/zww8LaNE0V8+UL7F1HPuEajyFYUP8K97xRRNsE5SnX+3vNSEOLxau8lsUB3wPJEzJxZ2LvGeEuNom2XbZ3oGWt5dO6OHBfxMz9IbvfT3e4kQRjBtDPileIswhtDqo27UFnQt3QaWKzpbZKwCLNwJfaASN0AQsPuByG+ssxvUpWWETkcxlLyPo7a8tdkieXCIVDfXsejchpSjeMN6UPivkvXVLVbQaFaGr8VGVHEv/h9hxg2pvXilG9Wn0jvBOVdwkzlY4AddNR4mEAZc3ix6T4XTGKnpM9IOuGyputYsYtO2WvGCvJA/4NnOicY67E5KDtjNX62Rz3+/1mg/+zP271nQrcmQjNYKNBWWVS4V4gnltp3Yh3Afc6BFPDbOtdP1JoW2e6GXanv0AxZv7HZljC5V5auFvEgxQuqXgx7lzxtlsKrG3zNvcNrnkvyv9QOUwpK2h32twFDWxcyAX0gHjuotEOf5hujHXqvEHJJE0XsZFbO+blX8+KuMn4IEu124mtkr6d1dUGUuuzYq86GuPlLh2X1E623BGTxR37gXmTIr7bkI+wGEX/gXhuyBwguq0jQnAZfRYvR6PVWtHC7WIULISmIYUufyXZIWEP5rn8Fe7gSITd17qKCZFR0ezfHBm1UVq6SSv8ukyXM2+sonybCQ2TeNC8IdccJ3G7y1Z/LSL2cNRQTEe8j5lIpVKKAxnu++oWyV5HuLeBSBYQA4gvLcmwmXjpovamcBNCYy0EkIfytWU+1R3PaWta3P2UDJzAM6WfTGzvUk2HVAjXZZVbXpnp4yg8yi1mGxGvHI32paEU/hu9koL4YDlb0JMYRUIhp5KxrZw7EFEm4RHPZzpdig8ZazrjzrXQjyeEZ2zi6RVcFcGowSNEQNae0y1Ny19tamtR4kF9mJNqUUZHwo0lBT1KmxK/Cs94Ttk/+dwS3s8bceMBK8qud8/mTRaHTVLhAcoD4V9zmXOcLjYp/WrPeO2/SfmkmJagV4nvj4IC3o9DSVmUnyPx4J8ElP3DNyBWgMQHxi0xw+jTf348HrdPeRQyzUR4xKIOk20V0cblDe9N+fA0L/0FiQe/xM8nAGnNH1Z4ZiX/yis87VtC+cfteMAVvDVe2bhaFUhPko+S3NePTcPTrB9efm6NhwmPOCI8oMoHn1fJjovvVX0DLzXRiac17qzxANbajNLisBtR9h4aAPvygdR4oPbnajz4X4mncvZqe6DgU+QDbfSICw93uMwq/VE5oCWe/RpxiF0vjgSxqstH4tmU8oHSExW/npWsh8BTc4w1niq5YOKxc7SNT+zG055ub6IBUeuAu+EyF+4C4qEtzKVvm1FtCZv1NCs/Y1euH8O+qd8nvCv0als/rLUIr/E9JJ5iXVqbOBL8g3jKrXhq+ybfaTkS9rpUhQpP7XV342kMH0+d68eM5xwUAqv0bcMq/0rgUeWzKd3KBg+o++uxVMcSD1P0a6mYHdMeMLXYx1w/qUc+4Ao6daYHavtW6rMDD+h4uGa/DTyVPNB5IMe4zjdaeJzxWPVij3yc8Zzm0zZ4QNW3g5RuJR8ZBdR4mLq/VvZtKdePimdZ1TKq9gCU2A+UikeFBXDh4Q4GxmXuG/lUySWHvlXkpcseHEs+VOKpbqzEwzT9U24K2ohxr771YCh5DzyVPDz2QMFTv7QTTxvt5NE3o2oVmuRcxXxAvf9UARy38ITpMRPV5eDef45MemXEOYeFqAwAPx69LBAUTavjuRZ74CCmTfYAFDzMZd/CUTBabniLvZbfCzzBKDpsZfmEtAfMa9+8twTt+gaGywY6Dwq6fBQ81f6zoJ6RhLSutteg46kdzmi8QEiishe99hb7ZnJ7Oj3XvX685ZHgk4/4elYqWL4UHPtG8d90+yYBhCk1CYRzTO1CiYdZ+ym0rOl+eKA9pDPtdVjJR9xjFIitdh+NovWG4jfbvlW2IpI3TFXxRaysH1s+4KGZ2vcfe+G04qnsW4VHhPDo+sidjMiERGEatPWDXMMK4USiOJjK3UYJeYFKRqDGA8BYWzLMv376EfGCb5ZPHar1Q2+B3+xH8hbLOqxCSCBX0u+CHzlKc0YLLa6eITI69CS4RtJHYcoZ8zBocAoeV2UEJlaQhQoae5BhSBcUwhEKxC3WZmQ8ou/rtSz5q2AmnCRZkF45oxiAj6KNHqJRpMhbeLMeeMAZautMP2rNcrFYxOWuSMzaYrEUHEi22Ou2J8+F0zrhJROc7fCla2FUZkWmFJJjfe0s0z4XxrvFcuq4JcMh8+Lh3rUDzspij3ra7jgydpmd0nJz5C3F2t5+ji59A+/dKdwzOCkKnWIvd/OZYhLMZLzyU+5OObdHmK141Cy5/WDAx/hYBTaakn5PrQiZUVkEts21SUNwVO40RQrQHc+5q1U8WgC2noBhXMVHIqtc4fFXjYBdz8N8NS6upEGfeA6cNUPMkfwDf8wFIpGu4dEUFlozAACtGemGkW6J55RUHuhdLVqtmJpfrH5iViWKd6rwqB67WvBnsmR6t5ryRp54jrXEc+Cv/oDWZkUnzSU/qpGPY2uGgfVNvhRdR3zqzk10h3tgaXiNp0qGqZeTE4D+9lrZE/vFc1r2t4znLDsLjeoIDjQusBC0yRvW+kZJoHGiXGm6yPU3AqMgQKu8gPqO9K0VoI98Bgq/eSmmuyhFV5sKRT7xspx3EFaTEuiTT6+Bgw7+ALrzcw6mXv/RRjYtZ/WDbeyBTOyF2iyRmnv0lXC1+BAMlOSeTz4AntyE2arsdmD2pQRsPFTSJeagjGflRfFpRWC3rBMwWnFd2tMZn4I3A9+eSU9rPMb6QRYlEKIb1WtGBKgJd5csAOssR1JLmrz+aJemstY+U1js81VYApBXg2eaUQMZ5kR52WJP364mjmIg5jK14MxN9Vw/3Y3Kbt2YMH3DUfDgr7YlnvJXCp7+j9FZuNKBB6CPgbFWqwxkjA20xlNWRY6aOhSBhzdVE5ZXCC0LQLNDNp7vkwnTVBk06w8OL1ptA9AcUDceqPHw8n4WVcZX7/7R+EPb+Wm2yaYWso+9dtgEaKnTMQGAA16pb6p8/Ixh27KFvvGcmSEB6/1t66ktUZ98ZDlPtX6kKBajpqDCjn/dkMAITvrEc+AseGuNF5X0RbOBghePfPVCy8iDqxDMuQWCFWZ0xtseX9NdgaU/sjZ7oOIp5TNxh+Dg7k8ZGs+1l7P12KDAY6+F6dPWD+jrB9wNKv06IFrzc1pFox7igRa9gfqT+s8ah9qI50DBUybsS/noHdxMr7D2xHPQlZ+bdI1lgX5d9LVATPUDcz/duSta+rj0vfJzwMytxYw63dZF97VVfXPjqf5yV+8/LT1P3vpRNWPSGc9Z0ZpeVGEsU3DZa9DXD72ThgdU+YAzawsOVkjL0LX5O7x71ff6kSIQPZ4Dcz818PRwGL31SD3ycy1xArgXFpQprUhNcYvJJrGub+WLd+b+A/72FXDEP81u3rKfQkvPXl1cB0qrFBjbdhyWvXgyAUmVPkVJ6JZ4mInHLCEHw2Njdj2EPv9mULwwLKqvEm9ZGX7T11Wax6Vvk1Zr1rMkfFA810Oj9XUsOIRonGEP/EhOTylfs3bigR63DHYuqste8x6Zo14NwECjm6jYekXcx2rWTDFY4/QMFU8Y2fbAZrmhI5k1IJ6DjnjODZNSPodEFFEv96JvvPzdmjJ50/p1KWbrwolvjA2zOyY8sTF44jn3WjM7cVzbBTBr0fL1bLzJKGmX1W87OWBib91Uy+L4jBnXCWKDIFdTFk4bBf3yp3b/AjCzqU/v3XU1l9K1D8O9z+33Vqt6jPWg/Bz3pHT8vXLtGUPqGsHWDTIBB970OindUqJ/n51oVHvm5+ymbVd+jnmDIL0eZbKQLGimJnyU7ibofFbgem+rsbinf9C3x9VbeFrMa7r0xDeC1vfvrH9TQh1Pfk4vWNQWrfqv/B8cjNHgsVtXXR3dVv5UL4wC3Ylpzc957bDVtAImfeG2uTCLRRWVEj54G5ed+TkvsQjd+axJW7a2n8/rCtTN/Bz0WvPQqcp94jlwBUze2Adc7IFlFar8Nnjmdeqd0r6RA0zNmdmBc08+pKuMu/WzKtIDnQDFvnneCPxd56xzuxqwn542lkK9cpweX0zY8AsGvPIEew1DZmF02Ik+yQTw9lQ7digfHkPeoG+nlVejxXOeHJrS1wzVn3XM6zTqONTXOAd/Kjt0m751F510ViOAz0nvk+cB7ygS/+iIp4lPe2n/oHmdvV4yKD8HPbJwnqRsy6/7z+sEsBhfcPXsDLRvhhvjqtpw5Tj8zhn4S486ak1a3qhpFvDLx91S7hiT4o/ntGXvSBA4W8baaoBcY5a0KrqufMnHz3cxG/DAQ2Y4ksHKtIh2WfWst2St9ZZdvA+4XGUvzwKtfDt0MBjd/XNgzYHQ4jnQS8+MeZ3uMMMefgYWLdjM3QGjBsU0D8CsjDSD9v7tJ5vv8re7etT3+hyMDgXyl8s5Q01w0SCKIwPO+S69/R21cdUzA8WT2egVxjg2F98EALNQw3oV9IjnwMtt2DWEzjpY6LhXcAUIDrrKzjSAfyCX3761PCrQ9wrwZYOZr07UTPa1dpj7vrBrbHr7B+21o57l4WYRfDR064DlAdamR//C0/ikesDMAX4emwjt/ii4yTzw7O7MzQqWR8jQCWBZcyoYcNcQLHANxAJ/SQqY9ezeeM6y2eCYxANW3Y71coEmzg/LaB7QNY9Wu/JUIA4OVhksx9Fuy2o4vkHxnIMIA+YsR9J+BIrHQLccH9PAulZTMe4XoP2NtAo0h2trFZZ9FL/TaTLEUT7zwH1F0/jpPYmOeM5ifKGFWQa7CSUugrar+G0z0hLsHgZwz+sEzwTR3vbantdphkfg6AygbsV50HFNlbMOtMAQ2oIl53zDfvWJPYoFwZkQFKOQuq9orYdG7Tu5a7qZ5o30jue8mVlPPIc57HnQ65ppWuV2KDoJ/654zhpE7Jjv4uheAmViYtD3KhxDSQEGz+tkrfrWwuM7SpHMfQjYfdD/2nU2/HXls7rrR3tWIfrm5GXBkGvha2gazJ4P6AfsKGfQv10NwoOlCNyf9WaMeRmXfv6BWkOu8sc953VydgwGXjnjxnYD2h3oTDlozXqghEoD57v453VqC4qHQ/HMJ6xtAJ/dmeMe/NkDj6OwHLrCok0w+No5yeHW/jmwOA54Mv9Nf3S74XiCtbtpqnf/dof/Bq5udru/y+knDFc38riNKgBteAm4KXSbpejML/TJY5q2LwtOue5d/LiH4/W5Pn3nu3g7Qh2y54P20uZaMuasS/Z4dO4e3z75EnCNJzeCayVBc4K1llfmXOpGsRizR+U+1XwXr2k4nIZnyvhHh5Dt6wdaO+hdx1/IIcen4Vn5mVbH+QsfMd8FmONoxhb51c5OuJvl+Szpr3Csvdiix7zOofNDoGs+Pr5nGfisqiPF9z3xHO1J2J7Z+yYJ3btfE9zvDsw5QUr+dF0th6qJvgY0n+16+Ajt8VxLZWyPeTUt8zqdZCKI/l8ZpSnzAGbyhrFCOZvOW7dUcNDlVvLKFAtAr35A1j3fxfUisXzmXBy8rUtoJchFP+czadEvaItPTovn3PNdTJWU3sHBmNiwjgT7IZZUPvfvQMw5dwWYx101H+/AeA68tevNEPZ9FdDogPC4ZiGiPY7s455wb1vtQACuOiToToqfMK+T+RPvAs+0ujVuIsp3QjDRLvdQWTnjrVkY1iqu1ngOQJ/2U1VH6TSLViEActTWzoOHMguT9bGgAzBycEpor0xCZEaLM3TNd+nsB+w738X4dunFw3mZQEFok7lzA+JsaEOLvqz7zevsNfJAD+bWTjwy+yMNhFM+HPrHp65Snq5+QH36jz6v00yiCAWp9prciYfOwdlOpBc+da6f7vkujeapZwk9wbxO31wXcWsbFx6cLYg703x1yCf4XVTGPcd8v9Ni7v6VGk81rxPaLM2qXAqOKwpmeJLkvtjlNSN8FH+TNxEQtBXL6cVrZvdp7/pEbzUrOMLTtXRtHOLZBnm98eG3iQx6GgciHtAWNiSeg+639DvdIFZGdZ8qLHaUC776FoUSKaJD/82d1GLts0ehAw/31lt288tSaofS32F0YKuGCLNCeVaaOA5LJEGq30zpb1rzIp56vpPiua4pYIbSH4V7LZb/Mm4AEbeA+87qOGHSW83q35Gwcsa5+7ghMHlRsGtyTqgP6VtDhh1xS9QsfjjMpqtClY9gTufzEM8DkPJqHFZyyX1K0BaffuS8TrAJHq2cp+R4dhlTds/6rsn2LTnPaEinbivug3mGFRdcP9tJ6Qe0FxIYCWs4rR+wx7xODOpmJCBeejf1KllWXqdp/qqQb64fjePhF4fPd+nuB4RWg7dZ0AKKN/tYnG1e3j4e2EXicW21tcedch+V6I+NoF8/IPjsS0eFebmA2AYX/xyHdBeY9K0M3Jq7PQc1n+p6XOA6e9DisnvWW7oeiMcjKmHep3jbBGeKZ/bNKL9Tm2y6JhMDz1IP68A9+NPQeLDqiE+c18lYVw0bHj0InJgCjuee5rT1q7cvDtJW4YzbeB7oKsXs9HcMOtQ1rxMc8zobzxdJODqjM9tvxB6q+AEVnH9XAFXGQEvWueZ12k2wPeZ1+vNzveK58mdReVqTuN9ip7I9hOffGzx4+pSVOuE9wi97A+qOTwGgvZDdc/QGzsaOVL/AWC6avrGiJd3dI57TTr7sM6+TueZ1OnonQK0PWQfKjmltNwoeR+i9a+JUz7xO5pjX2S6fk7qONBb7wOq73nD/BXzUg/jtNVGobf6Bxx9kvnZM4zvSokklBoimzA/Ijrx3LSsWWqqVT5rHBa2+YmN/smDGy1WPAUTOWhAVdv1L50NzH+/bt37UAamKM93HKiKu1bxa9rT7FzH4JVT4M3UfH89Nutot1J9MM49zSlUVx8qusXw6m/gFZOw/khcBNpSLO7W/UXUDVtzLifF5ZNFuHjxHcz8dEP8MmtfZ1SGKR1tzTwBBT93F8oBJyXGz+G/ZMq8TALxDv714uDEBw5jXCU0sFeV6t64WifH5XHWmK5XQr9jwrktasW1ep8Kfmzc5qB8drHaLbD5pq7A4BoqdZpOzP5/96ld/PtMJkk3F7qhpul7nrw6O51jHvE6cohwxcLalljNio9pJYPx//+FCXBpzytaCGNYqmNaGKLrn3faN55jdJKI+LxwkvLNPlFCLz/MgKXm4f/rDxTNx/UGzc2QfjQVUOBaKp5ENrN7QE+Z1qjq9HHsPO5d/vCwjU/ZPJZyLf9TyqtmiRDdXwm1fF1YLhTlwXqcvqk6P7XW3LJ6XmSD2TyUeffnsSu2rfZ4lZ9CDmfLdlD/+AXVepzUVvyzlXO2rocgA1kxNMdp6j6FcCehfaPVo6sbyVU2UlOwOq8/cU+pHm/ZWfYgOPM28zua75Nh+DrpIby1LEUx+9Y9/PvtXFQ4P6zSRdBFyZmbonmS+i9lXCe5uelweM/dsBmUto40rmLL/aBzVUiVIkbGa78s2J+g7r5P1nNdpCALAMa8T1f+gD+Sw0mr4GlxCB3ey7iC221pCeAYxrp+MlQMXnW0nP+u8TvRGV44BOVatPAGynWvkdIykMePHSLTQMN4SWbWfHzwg3+ioJF3Pua8SQPHjENDOZBEZFI4cKyKaY9USZw6C7SPmdYI1rxOM5rXSWZsIKkaZ1wlgzjygCqUsCiKNfyfH3J0yZmeXZOYypnZuAVh1veZ8l2HnA3qt12rJeHcRJONIf86UlTI5EA/s5H3/gHsUhdz3vOMoTTZsXmefi7aXuKPgt3yeaI7Lw0xQNrh5Lpw0NvAzuetSWcwsbpo6HQmsAfNdes/rZJyMca9ppVlKqfn79WaMOaDEV25RPCuvi0sSUs7V88FaQ2YA1j8f7HsmxHTE/hn8oBKM6AyU4SdOtmQepufiWXMRpEisJOC+qkRgffhR6DuvEx00ISAAs6TL6rulTWV7PByOa+4Lvdnx8pl2CSEtSUgcHMM5mdlgO+D8BXA/EqJmMqO929eX0vyRB04ePLMuIaQj97XuP2F+rvKg0T/rSj9Cc0ZgCymyDi6ePXMj+u+jv3/raed1UjV8Vs/+Asd4MJM588HZBpfP3JeQ0d43LUJ17vudj+EeZFufShukDv0Cz/FgEw8Nx7ZzHxy6ENFy4i0nHZSfY+3n6eFgxGDtN6gGrOx3Y+aBEzxru1BGUeybxtWjH9CYSKuMJNUr40RvZtrkyYyYq1TCPC4PN/3Ds4SDG87Fs/brUkSGOiOnlcp1z3fxDJQynYRlkJmtgvoL1oKD4uxff4e35XDbiA7pgkOAUuYZ1QKD53WaFlI9vSIPDr4hU3LTXlFrAmf/93ekOEvmonu74RCgGYNT5nV2zXcxVpLgQb3zXXDQP7JWpGy/E3dl+tWM0iV+OBfKr0SFXIuT+jTzOokjWLf8NqPCwxrOs8vIrsFsgaNavQu9pGzovM6+OQpUuGlL9mkp8jkCzsXlhbgptWw+CNoMtQ41mHO/n9h+/oLWMm/Pd1HmdYKwcI5J1qw8yjmi+O13Mgy4pGVQpR3oeOp2OJe6Fb+gkuaT53X6SFYrFs6COXePDsInRidas8n/lPp/Kf8pj5LYEm3dagnM34pcCvt553WSfOYT3+8KGm8w+bMCh8S02m+3G6rZueywaCY+VeF+pnmdorYwdnankleGUCd/vpA+ixoHBJ1o8PYvLYBrzbqedD663cJq7JeFY52CJDRWwWi5+5cSzoVitvDq3HMuLGW8aCwPuE4Z7o7n2ud1VqR7qrmt1fnhvApJ8b4u++2ZhjSsP2miE9O5fqL5LkDHW1Cni16PQsOEqFVuvtuv812JaegV2D6qYnlcMdaw89HBNbKdcmsrbjVNxQdBaEg7saWl/2w4nkuHyDK7oa47XlDHZVrzOvVjFhHOKK6OYqzfn+qsD3XluOSmLwfCuXD8xQUlyMAzBxHDq/Qj53VijbsSmNRqjD9dZIwZXtrlxUA8jte3Fyv1mkfsn9dJ20uQ1Ofg1CFrRHOcmEbkMHYfDVxDl048/82Hz3fxzus0jUMs1g7Xu5owPhD8O4tnsmwUFBF9LJ5yAcGgfBb0m9cpepszrUlMnMYmI0k8ZFunQTFSGg0RkRPPRdU1OKDe0iycMKZ3KO7gNgjMqB6rEoRDfR+tLO6DTXYDROTEIxeQa65a/3jOP9IYayVjqwigwEeIN75jol/EaAc89jcLHjzRwPMXBs3r3Dma3lLUwZUsPGCTrZUR6W0W3Hgug9/6LW/PeZ32YSnleCXBHXDdL8TaCJ5RTSttOzhS0MrB9TULbjwXShtx73mdBo/oZn5l3XhkdLhQ9TiuK4QJ8W7loA9BNMtdnLj/oMIdGAyb19mScLWSowdtAcl+wKXAA/G8qqVw6tzFxYl4VsxjDT5+XidZ7I2WcqSnP8af4lttKToWWre1uu0XPeIfD55LjU06ZV6n94wEkaHbaSpIpTh77LaalXgwGl/uma1zxx4RnQcP5vntHJD8kXveumf6tnsu62plECZLNHk5QkEhEdU2ne+Zh7HuCiPchl2SIp7zF5J+8Zz3VCUUx5zrSCNcURsiQXKi5XJhjtxFsJci8esHdOmWnux4ctePJh8Zz1GKW2evJ+TtHAnKhibq5NSXETtIeGRRLmUY7t1fLzx4Vt6ClV7zOo2HYMwJXpcFkpVHtCUPdUZQZrjz4bmnVNqys/NYJR4hIh8iD545d853AV/8A0ZWjbmmW1cvictJZ1WJEO2wImmHhiGmRTShUp1lZiZO64TcReBFdOExCGtnx2if8xf89ZZN2XiuGGwie6Y0wWVCftyExLdlovpwddCtdpNgvAiCYEiw17jY1qo4cV6nZhEQj1oxTxUGFBVRXmgijRyeBRZEm/Hag6cE1BvRhT9GbTkfkFmnk+tJ+0rneLhhytzMNCj2SOxQnWtEqibsWyQm8pgjeZrN5yIYhIg8hOaWTpzXabfplm8R5vWYhbJeNBfTq2Zi3Y6xswT5xngarDK9OjFXNtML8n/6MKalhzBRj9PqH8+Bg4K38t5R3uBG3zoXAx1WVHQUHGPpBhAUXFOHWDEKCP1S1aFA2O6ejupascEwaF5nZ5Ewr0dYl+z7JAqmRL6lYsZTtN/P7qXwEOFyH0M1nmKm3bogpwSx3YcHnnnuq7P+oGVeZ0XhzbNam7dEzKeU1MinWHYzmS1m1XHigv+lmU/RDo/f5WLqw4XtfUpEnQtoybjJIAye1+msN8FkScjrvZSi0kMQTaQBrw5egHoWFJq/2ZL8tuiwRqPnTI5c9FC6iv/vNa+TM89yAeY6HDJf1u0MR4zk9mKWkJw0AaBaxZpqjXPqL1tGgcedvuyRF1oPnA9rn7nlKBcRP4uzqloe8wxZVk5tAq0/p3mjkqtdkl5d+tw1oXQXrQtoylxzErrOE+9B9Ghp7gJ3ml1b9XJdBnjhYqcb9+aiXUQXdYKm1/noMGgaOdSR6nyyJGcUWub0SNaC7S+d0eeFVlN12baAJs50YS++Cph1eoPr0UTBfoxDQOxeS1srMH71sDfajuR/ReWSah348ITzOqkKZLkJGjKh/ZjKOLjoTgi1iOiy3IHAmPkwfF6noy1HmGJk5o9zSca1GPv6+1Uf18YPSHNJn35eJ7VqBbuVKIBynDanH+QAZZ6ll2Pjexm5iY54rjff66/vq2qs5qsma+8v/5PPQbisPTlfDwmnRfnQPu+2e16necaQbLhcG/McwW8XJv1JbKfOXQa5TtJAi71mvsPJXGOTmqGWM9Z4PvYR6LpfTw0AFz2jNxcgWWr1VPM6TU81K6cWtLQlWjmbIYAC544KfetHfecv6BujMtyFhhtFdYrbMUocjPFg9LJj71ydyyooU2A65rtwK57zj66q/NBA5h3LgZzAedsQsMrb3nwMIGJ9tUfd3W/W+zTNWTMLlXVMgtInE86D3qk685WX5iey4fM6m8ZTUA4qRaGsV1OKA+6nu3S1Wi2LfVYOTgVtnqw6Y1M2bs37ZlMtQLSjcu2gSoA2+bi2eHuQrlQwHm+OeMJc9Mc3f1mU09WX+y2vX+KpP2Ni3lh/QB6Sp6sfkBtm3SjMMYYwTfLpSmQKwq/fvXtMcR9Ki7+8+SPNoFmhnEA/tdg4mxbjvt2AjchpEDrndfI+p6LIHqNsRpbtT4+7efrhh7dJkL7/4d3bN+mXj++u3z1+TsTiPxdrbh0bqJn1aV9Ahtm+lNv3qfNdHAHEPVVNjb7+4ac0/fD792kYhlGYIJTrt39avXn34/XbZPWXN3NshKPxj87GaCjH5fcFdOkyCIPnu9gNxvRcsDT3j4/LN9/+vpj/5voHZHSL99+++80omKeP1z++exO9/vb6+jerxx/eYkfpmDvdi7qLtd8i0j2Fi7J1b/h8F22PL7/Bjsvg8af0H69/WoUffvwpCt48vlmtHn9//Ziskuj19Y8f0tX76+t3yerddSqOmVN3Js3YCKvQS0QXWskmlSoaY0aG1fdWJ39m+TQNRuHbv0Zvrz/8c/rt9fsg+ZAmb6/frlYfrt+9Th+T6PH6+uvw8frb6zfz99d/mqdIu4nOOVeLOWc9wwfNJlxQF0HfearWyclVsgehCGuWpP/rp+jD9fv5G1wu8yR58w5Xy4fr36DuoYjev52n764/hG8Q0G+Ctz+mq2/kaYDFPuMqPwSV+u77UdeByuGv7CMdO/0D7QHIkfZzBJQufvPDCpWN4PwUzN+hGD78+Dh//PFDhD95j4JLQhSVAPQ6eHcdvnmPfziiRzHfxa4qVCSHewC6uLyw8HTVW3J3P6BwIJM3j9+9/+v8j4/p74v0+odVev3tD1Hyev7294/z9z++n6OGrf50ff0hevvjm/nb63ej19fvENr1h+DtY/D6V9998zoNRf2/ySkP2Yl0zgpOne+CMf9XX3z1ZYp3VKze/RC9+/Fx9O2310WQXP8FpfN69A7V7+319eoNAXqPivaIK+stSmj+5vev5z/N52n65euv36+qDk/NzeMigrgcgmdpBSgdfLw53Cn48pNPvnr95SqcB0mIFm3+mrTtMf3T/3mTXF8n6fX16/Dbb79FO4Cm4dsfz4TYPnx4n9LL56Mw/fKrrz/5Zj7nTSjWdHGA1LkBWcdFM2vklHmdVEeJgD754rtvvn6dfi4P/UJoxSJ4+wE17a8oix/Cxx+u/xp+ePdDkr59DINUvmoepq+/+uSLL/CvvwmD3E0g0XIeoHOXIh7uPa9Tm3hfPkUE9OYTedG9ff36S4RVTc4hMxHi7Y/oi3n1M5TJaxRKfSGcvTEqo7F2ZOcGeNxizhX0jufsjlqiPV5/ol7ikX/91WtE9p+ff/55GH5O1x9xobx5/RUp1yf69V0UHB2BonJH8bKniOrzj6CT73VRINW5mfOvP3FfXwh4XwiIX3he811KaeG2c8u4KEXvsYoupJn8uHmdFCOvPjn9+i/ZGWiO2TSqT3qJSI/nuvNZ4OARQSRF3pwMB01b7POz1ZIgWkVdiC6JKodB86sc8zpFBvvrE+GgtqknlID78CKhHJOuGtOLptFEHbLXzYc4RoYkp4qnKozyNk0242VFp2BbaVzFJw6KF5x0E7oJp4lnJSLK9oFkit/QpnQXeh17n/MXfBUymIsKTzQGy/ZB7frnoNJNvcUIVIACPetH/fnG8ovE2IR6iidU/DZPw5RZZ5ft3Igua2NtHN49uD5estXzr08xBoeORmoH4+hGdBnMf8u4i9vojufseZ2UGxiucYUkuOs0vlqbAHZnHzSIirkO6UIM2efG9HQY3o9ej2HH0o50GJovHumRmkfimafiuM57F42F/y3KekQ9DCW+V7/V1bMtnvu+pR+w+XI5ENB/BRVb5hzL4p0+XDV+bpT5/zR/DIafv2DOolDndVKDXNR/DX23qOCAwy6rh6zos/2UqTEs3hfIw87D5Z4rD8P0a731ytB13jvyVW++6alrKzEuzcr2e5qS7FFIlYfH45iXM7rMAuQqH5yc1r8AVIgchH3s9iPSbwfOeN8UjO88Pe8hIJrv58ATV7bHfbh6nezgY5R/2g7p69flTERQijjMc/E0Vl37CWilndZ5enr+hb426pUPEo+XtzYKs0V93jx585VzKX31mrINwW7bTDFvO4O6x6jErnmdIO/+IPHcRKOCJLZlRlGMddJpXYbDYF0NQaPQ9D/TL2WcioFqGXHPYse5w+Yb2WeUDzkfXc2YZORNF6PoPySeBeV2N/VIRF8FRXWUI+Wq4iD8SqURKqMa/ueXr/9LHlJrpPgdYz2Z46hI8AD3z+tEy76h2VMLiechDAW6cft5Rubwg9X8m2++e/8dhthfIY9AF6nfF+/ff/fNl0Hmdku8k6z7zZPxaRw2FggNG0X/hnhuMYFDXRTLvvM6y0oXtAqjzwWNg8C+++abb4ijS5Gkm1PLpq/WqrWurq8FtPKNOLAWC1rD8BbxvAjDUU6TNCcMTHnXR5kos6zqJsdsjdnTVTSvVW4+j5a7aZ5N9Kp6YyyLeuAWgNaoaOxOoPyZ543K9hJR6D0Kw39APGTgaJh2shl4tEcp7Djbru/zfL3NYn7CUx9wpIi3vzdPQJq3T8/PXp7fyQU0W3bNNzfHdgA4jA4H90CLkw6Rd6qn/Ua7MS2fMLw7f3l2RQuIFC6OMvcUaP9aarq7y5ID8HqyvnG/ZjxnDwFrmeMM1aFQsVS32/Mr1LdXiIdyksWi9fAyz5t2PICePeFd7w0ui1t9taDGukIsH1w/QuHIwsXh1pzh5pnXafU3+ed1gn7ssFnjZPyIgb2hu0ho5WtsKKKbJ+uG6kb2QFg4qgAdJ9ZMNHAXJdlhGPjPqTKPNO2I58DhoPjfiObMjKmyG8Xz4pzkc/7p+Y0QEPBk7OhHb+nabNkeOgZpdxE+4PX7DOQkBS7Fc3N+JfBIAREtnNFgd2O3ss9DAKtaFPzHvDmmN2qnSDHPebfArPpb10PGilSSBPo6UjwCzxWtoNG+/CX39MuAl5yDHsYVuo4Xs6o1reMnHSNVoRTBfkSr56rEc37+WSg0Dn8RVoXu0HL6R7czP3wP6UE5OuabZuFM6BVer84r+ZzLPUgMoNmH5eEBoFbBGWc2gVpnDapb1DgxjR8M6snS+sGsAMxxeB+AcVqkEmJqB6mjPhEc9ETF3lPjQZNAGrckQPlo7Ori7nPoLmNdBU09RAW9oh/Z+DUeiSbxndC2Txv5oIReoo0b0fRwjI3STNBFYPcDmlGMa/cE8B+86Ahr3GDBPlxTe0a0yLM0ocXByRbc/MPVuYoHvYTnZOTkAJ2wkOO0QTl/oaq39PbNeJjpFoPsOePLarTR+g0q/c+KcMwr6Tx/VcGo8UhAiWjy+76IFjkf4Az7yJlTorTuviiaMLeIikxG2hocBY8EFO6FOcjGSbKb5VnsGGDQSmUMN3+tSK1Pn8RZPlskyTiTGcqQ4Lw4v7LxXJ2/Ij9htJCvxMOLF1i1m5iXKOnVuCOL/wSr6UGjCkAl/M1TivUNdWp/frRKF7OtPEwjo6UT3rxq4KjyOT9/SZ7pKJxm9ePBo5eNa7sqmNF/Yc/rdDKB4Jx07D33GP8tkq31+RmvdDKbknDCu5cqBA3PuSAT8FXF2p9NjVeLU4IzGP76RRL7FXFdCDS475z78aDO3QlEowR5AO5OPPJkyZWEqGfqiNUP6I3nwB2q8V0ycZ/CISolRwLNnaprDvngL1/cSESjKFlMxzPjEk2zuyq5Ao6z5P39gAOYHWyalk9tbd7A+LBIo5FEc/Pi3IBj4pGI7kQNMmGyLzGVopCJAyOe0+I4jRfSW3TtXAMYLCaNUiqk9+y6B3F34Z2NxoFHvObV7c1zwmRf5IfTuSQ4zcEYhePmcruOUAWHUcCvNuiY0cylkfMe0ETf3H7mQOPEI1/36Yvbh5vn5kWaOJMP7mDcvLsVqntWvmOFsqmIAtiMtMq6h5uH2xcvz51oPHgQjfPFL18+EKBCHEZNbh5wV2GRPgOsaum22H7tr2ruEP/5Pk1oEigniiN8ePnS+cg/dd+4B4+8ewcoAWgZy4e4HxI097PcQtcOlGea7AQcBxQ3wk48ruvXYocaJSItmke72KCS4OTNpxr+G+9wkAd+tyXHDHeXXw+7wYF48O1f0CIKxSLiRXj0FEw5j2u3J3tZzXrHUGgzGpxQOGYvz39ePAiodPOEzuVJutUOfmfe05idHo9hILdpIsLjSeWYDYUzHA+ZFeHmyU/GYGnxWye15jLULdwG2YGFDGnwKQnHzGPCnhhP4+YVwkuIi1AMpOk+5s01WKUpnogPYSGW46RwOWY/J56Xpc5hikW67dE0PjGDUOGKp1EZqGySU3XtdPlcScONAfpW3MMWw8Utq+aEALTUgzUdJkpUscWAuHonIZyHU3TtdDyCVBUiEromyqGidMMZs0qEW7ImVfXwJhXBs9S5UelnnnidjOfX1SqKxhLRZJZExT1v2jnNbck8aqyKY1aJ7LRj8TiqVs6v/+Z4BONw1yCSapMkRUWktNAa9eFnOf3BWn5Xobl79TG39DF4mmApOpQhOj5uIlK2XKU2OTRXcx73drYr0YtHcYh8Ic3fTj4KorAmuJBIwRtd0rQqD30/yTbjJcGuImCkn2TwfHP7cWg+Fo/cjMqANhlv64efHYs0SdJlMdvk90hqfB8js7K9zzezYke/kA11paDGyahG87HXR+O5qkwdCSltIBGo+/10Qbe/EmHYigAuDseKmACpdakUjTRqV393PCWih+dSSGE6zb83fDQkAWMUkMFF0oCuaRpK0Ty/exI0T4JH3shnt6WQkEhZTjcZb40ViKJZVrRGKILn//Ekd/I0eM6Fc/Lq4aYmUsJkN5V8sY4DGcr8eNglYU1r3Dy8Kv/+l4QHZUTa8llJpEhBIZtBS6Y4TMfj8fRQLJZpEslfyNdIWkP+6S8NT806vHioyKFS/3SqSfxKYHl40cYE/ALwNI9akEPlvZtck4By+0J9+S8Xj1hL5U1+9gphPdzdVLTXzc3dAwJ59VnFa/wMn/1z4PGSQ/0omo+6/h9w7gkAyjIYOQAAAABJRU5ErkJggg==';
+
+function brandMarks() {
+  const src = CONFIG.LOGO_URL ? encodeURI(CONFIG.LOGO_URL) : LOGO_DATA;
+  const img = '<img src="' + src + '" alt="หม่าม้าปุก">';
+  $('logo').innerHTML = img;
+  $('miniLogo').innerHTML = img;
+}
+
+/* ---------- การแสดงผล ---------- */
+function show(v, o) {
+  o = o || {};
+  VIEWS.forEach(x => $(x).classList.toggle('hidden', x !== v));
+  if (o.title) $('hTitle').textContent = o.title;
+  if (o.sub !== undefined) $('hSub').textContent = o.sub;
+  const st = $('steps');
+  st.classList.toggle('hidden', !o.step);
+  [...st.children].forEach((li, i) => {
+    li.className = !o.step ? '' : i + 1 < o.step ? 'done' : i + 1 === o.step ? 'on' : '';
+  });
+  window.scrollTo(0, 0);
+}
+function fatal(msg) { $('fatalMsg').textContent = msg; show('vError', { title: 'ขออภัย', sub: '' }); }
+function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function fieldErr(id, msg) {
+  const f = $(id); if (!f) return;
+  f.classList.toggle('bad', !!msg);
+  const e = f.querySelector('.ferr'); if (e) e.textContent = msg || '';
+}
+function clearErrs() { ['fPhone', 'fNick', 'fBdate', 'fGender', 'fBranch', 'fConsent', 'fNews'].forEach(id => fieldErr(id)); }
+
+/* ---------- เริ่มทำงาน ---------- */
+async function boot() {
+  brandMarks();
+  const p = readParams();
+  S.qr = p.b; S.src = p.src || (p.b ? 'QR สาขา' : 'LINE');
+  S.meta = { qr: S.qr, src: S.src, os: '', lang: '', friend: null };
+
+  if (DEMO) {
+    $('demoBar').classList.remove('hidden');
+    setProfile('ลูกค้าตัวอย่าง', '');
+  } else {
+    try {
+      await loadScript('https://static.line-scdn.net/liff/edge/2/sdk.js');
+      await liff.init({ liffId: CONFIG.LIFF_ID });
+      if (!liff.isLoggedIn()) { liff.login({ redirectUri: location.href }); return; }
+      S.idToken = liff.getIDToken();
+      const p2 = readParams(); S.qr = S.qr || p2.b; S.src = p2.src || S.src;
+      const ctx = liff.getContext && liff.getContext();
+      S.key = (ctx && ctx.userId) || 'me';
+      const [prof, fr] = await Promise.all([
+        liff.getProfile().catch(() => null),
+        timeout(liff.getFriendship ? liff.getFriendship().catch(() => null) : Promise.resolve(null), 900)
+      ]);
+      if (prof) setProfile(prof.displayName, prof.pictureUrl);
+      S.meta = {
+        qr: S.qr, src: S.src,
+        os: liff.getOS ? liff.getOS() : '',
+        lang: (liff.getAppLanguage ? liff.getAppLanguage() : liff.getLanguage ? liff.getLanguage() : '') || '',
+        friend: fr ? !!fr.friendFlag : null
+      };
+    } catch (e) {
+      return fatal('ไม่สามารถเปิดผ่าน LINE ได้ กรุณาปิดหน้านี้แล้วเปิดใหม่อีกครั้ง');
+    }
+  }
+
+  const cached = DEMO ? null : lsGet('mp_member_' + S.key);
+  if (cached) renderCard(cached, false);
+
+  try {
+    const r = await api('init', { meta: S.meta });
+    S.branches = r.branches || [];
+    if (r.member) { lsSet('mp_member_' + S.key, r.member); renderCard(r.member, false, r.profile); }
+    else { buildForm(); show('vForm', { title: 'สมัครสมาชิก', sub: 'รับสิทธิพิเศษและสะสมแต้มทุกครั้งที่ทาน', step: 1 }); }
+  } catch (e) {
+    if (!cached) fatal(e.message || 'ไม่สามารถเชื่อมต่อระบบได้ กรุณาลองใหม่อีกครั้ง');
+  }
+}
+
+function readParams() {
+  const p = new URLSearchParams(location.search);
+  const st = p.get('liff.state');
+  const s = st ? new URLSearchParams(st.replace(/^[^?]*\?/, '')) : new URLSearchParams();
+  const get = k => p.get(k) || s.get(k) || '';
+  return { b: get('b').toUpperCase(), src: get('src') };
+}
+function loadScript(src) {
+  return new Promise((ok, bad) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = bad; document.head.appendChild(s); });
+}
+function timeout(p, ms) { return Promise.race([p, new Promise(r => setTimeout(() => r(null), ms))]); }
+function setProfile(name, pic) {
+  $('lineName').textContent = 'คุณ' + (name || 'ลูกค้า');
+  const a = $('avatar');
+  if (pic) a.outerHTML = '<img id="avatar" class="avatar" alt="" src="' + encodeURI(pic) + '">';
+  else a.textContent = (name || 'ม').trim().charAt(0);
+}
+
+/* ---------- ฟอร์ม ---------- */
+function buildForm() {
+  const qrB = S.branches.find(b => b.code === S.qr);
+  if (qrB) {
+    $('qrPill').innerHTML = '📍 สมัครที่สาขา ' + esc(qrB.name);
+    $('qrPill').classList.remove('hidden');
+    if (!S.fav) S.fav = qrB.code;
+  }
+  renderChips();
+  renderGender();
+  buildDob();
+}
+function renderGender() {
+  $('gChips').innerHTML = GENDERS.map(g => '<button type="button" class="chip mini' + (S.gender === g ? ' on' : '') + '" onclick="pickGender(\'' + g + '\')"><b>' + g + '</b></button>').join('');
+}
+function pickGender(g) { S.gender = g; renderGender(); fieldErr('fGender'); }
+function renderChips() {
+  $('chips').innerHTML = S.branches.map(b =>
+    '<button type="button" class="chip' + (S.fav === b.code ? ' on' : '') + '" onclick="pickBranch(\'' + esc(b.code) + '\')"><b>' +
+    esc(b.name) + '</b>' + (b.area ? '<span>' + esc(b.area) + '</span>' : '') + '</button>').join('');
+}
+function pickBranch(c) { S.fav = c; renderChips(); fieldErr('fBranch'); }
+
+function buildDob() {
+  const d = $('bDay'), m = $('bMonth'), y = $('bYear');
+  if (d.options.length) return;
+  const nowBE = new Date().getFullYear() + 543;
+  m.innerHTML = '<option value="">เดือน</option>' + TH_MONTHS_S.map((n, i) => '<option value="' + (i + 1) + '">' + n + '</option>').join('');
+  let ys = '<option value="">ปี พ.ศ.</option>';
+  for (let i = nowBE; i >= nowBE - 100; i--) ys += '<option value="' + i + '">' + i + '</option>';
+  y.innerHTML = ys;
+  fillDays();
+  d.onchange = () => { tint(); nextPick(m); fieldErr('fBdate'); };
+  m.onchange = () => { fillDays(); tint(); nextPick(y); fieldErr('fBdate'); };
+  y.onchange = () => { fillDays(); tint(); fieldErr('fBdate'); };
+  tint();
+}
+function fillDays() {
+  const d = $('bDay'), cur = Number(d.value) || 0;
+  const mo = Number($('bMonth').value) || 1, yBE = Number($('bYear').value) || 2567;
+  const max = $('bMonth').value ? new Date(yBE - 543, mo, 0).getDate() : 31;
+  let h = '<option value="">วัน</option>';
+  for (let i = 1; i <= max; i++) h += '<option value="' + i + '">' + i + '</option>';
+  d.innerHTML = h;
+  if (cur && cur <= max) d.value = String(cur);
+}
+function tint() { ['bDay', 'bMonth', 'bYear'].forEach(id => $(id).classList.toggle('empty', !$(id).value)); }
+function nextPick(el) {
+  if (el.value) return;
+  setTimeout(() => { try { el.showPicker(); } catch (e) { el.focus(); } }, 120);
+}
+
+$('phone').addEventListener('input', e => {
+  const d = e.target.value.replace(/\D/g, '').slice(0, 10);
+  e.target.value = d.length > 6 ? d.slice(0, 3) + '-' + d.slice(3, 6) + '-' + d.slice(6) : d.length > 3 ? d.slice(0, 3) + '-' + d.slice(3) : d;
+  fieldErr('fPhone');
+});
+$('nick').addEventListener('input', () => fieldErr('fNick'));
+$('cTerms').addEventListener('change', () => fieldErr('fConsent'));
+$('cNews').addEventListener('change', () => fieldErr('fNews'));
+
+function readForm() {
+  clearErrs();
+  const errs = [];
+  const phone = $('phone').value.replace(/\D/g, '');
+  if (!/^0[689]\d{8}$/.test(phone)) errs.push(['fPhone', 'กรุณากรอกเบอร์มือถือ 10 หลัก ขึ้นต้นด้วย 06, 08 หรือ 09']);
+  const nickname = $('nick').value.trim();
+  if (!nickname) errs.push(['fNick', 'กรุณากรอกชื่อเล่น']);
+  const dd = Number($('bDay').value), mm = Number($('bMonth').value), yy = Number($('bYear').value) - 543;
+  let birthDate = '';
+  if (!dd || !mm || !(yy > 0)) errs.push(['fBdate', 'กรุณาเลือกวัน เดือน และปีเกิดให้ครบ']);
+  else {
+    const dt = new Date(yy, mm - 1, dd);
+    if (dt > new Date()) errs.push(['fBdate', 'วันเกิดไม่ถูกต้อง']);
+    else birthDate = yy + '-' + String(mm).padStart(2, '0') + '-' + String(dd).padStart(2, '0');
+  }
+  if (!S.gender) errs.push(['fGender', 'กรุณาเลือกเพศ']);
+  if (S.branches.length && !S.fav) errs.push(['fBranch', 'กรุณาเลือกสาขาที่ทานบ่อย']);
+  if (!$('cTerms').checked) errs.push(['fConsent', 'กรุณายอมรับข้อกำหนดและเงื่อนไขก่อนสมัครสมาชิก']);
+  if (!$('cNews').checked) errs.push(['fNews', 'กรุณาให้ความยินยอมรับข่าวสารก่อนสมัครสมาชิก']);
+  if (errs.length) {
+    errs.forEach(e => fieldErr(e[0], e[1]));
+    $(errs[0][0]).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return null;
+  }
+  return { phone, nickname, birthDate, gender: S.gender, favBranch: S.fav, acceptTerms: true, consentNews: true,
+    policyVersion: POLICY_VERSION, meta: S.meta };
+}
+
+async function requestOtp(isResend) {
+  if (S.busy) return;
+  const f = isResend && S.last ? S.last : readForm();
+  if (!f) return;
+  S.busy = true; setBtn('btnOtp', true, 'กำลังส่งรหัส…');
+  if (isResend) $('btnResend').disabled = true;
+  try {
+    const r = await api('requestOtp', f);
+    S.last = f;
+    $('otpPhone').textContent = r.phoneMasked;
+    const tc = $('testCode');
+    if (r.testCode) { tc.innerHTML = 'โหมดทดสอบ: ยังไม่ได้ส่ง SMS จริง<br>รหัสคือ <b>' + r.testCode + '</b>'; tc.classList.remove('hidden'); }
+    else tc.classList.add('hidden');
+    $('otp').value = ''; paintBoxes(); otpError('');
+    show('vOtp', { title: 'ยืนยันเบอร์โทร', sub: 'เพื่อความปลอดภัยของบัญชีสมาชิก', step: 2 });
+    startCooldown(r.cooldown || 60);
+    setTimeout(() => $('otp').focus(), 200);
+  } catch (e) {
+    if (e.code === 'ALREADY_MEMBER') return boot();
+    if (!$('vOtp').classList.contains('hidden')) otpError(e.message);
+    else if (e.field) { const map = { phone: 'fPhone', nick: 'fNick', bdate: 'fBdate', gender: 'fGender', branch: 'fBranch', consent: 'fConsent', news: 'fNews' };
+      fieldErr(map[e.field], e.message); $(map[e.field]).scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    else fieldErr('fConsent', e.message || 'ส่งรหัสไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
+    if (isResend) $('btnResend').disabled = false;
+  } finally {
+    S.busy = false; setBtn('btnOtp', false, 'รับรหัสยืนยันทาง SMS');
+  }
+}
+function setBtn(id, busy, label) { $(id).disabled = busy; $(id).textContent = label; }
+function backToForm() { show('vForm', { title: 'สมัครสมาชิก', sub: 'รับสิทธิพิเศษและสะสมแต้มทุกครั้งที่ทาน', step: 1 }); }
+
+function startCooldown(sec) {
+  clearInterval(S.timer);
+  const b = $('btnResend'); let left = sec;
+  const tick = () => {
+    if (left <= 0) { clearInterval(S.timer); b.disabled = false; b.textContent = 'ขอรหัสใหม่'; return; }
+    b.disabled = true; b.textContent = 'ขอรหัสใหม่ได้ใน ' + left + ' วินาที'; left--;
+  };
+  tick(); S.timer = setInterval(tick, 1000);
+}
+
+/* ---------- ช่องรหัส ---------- */
+const otpIn = $('otp');
+otpIn.addEventListener('input', () => {
+  otpIn.value = otpIn.value.replace(/\D/g, '').slice(0, 6);
+  paintBoxes(); otpError('');
+  if (otpIn.value.length === 6) verifyOtp();
+});
+otpIn.addEventListener('focus', paintBoxes);
+otpIn.addEventListener('blur', paintBoxes);
+function paintBoxes() {
+  const v = otpIn.value, focused = document.activeElement === otpIn;
+  [...$('boxes').children].forEach((s, i) => {
+    s.textContent = v[i] || '';
+    s.className = (v[i] ? 'fill' : '') + (focused && i === Math.min(v.length, 5) ? ' cur' : '');
+  });
+}
+function otpError(msg) { $('otpErr').textContent = msg || ''; $('otpW').classList.toggle('otpbad', !!msg); }
+
+async function verifyOtp() {
+  if (S.busy) return;
+  const code = otpIn.value;
+  if (code.length !== 6) return otpError('กรุณากรอกรหัสให้ครบ 6 หลัก');
+  S.busy = true; setBtn('btnVerify', true, 'กำลังตรวจสอบ…');
+  try {
+    const r = await api('verifyOtp', { code });
+    lsSet('mp_member_' + S.key, r.member);
+    renderCard(r.member, true, r.profile);
+  } catch (e) {
+    otpError(e.message || 'ยืนยันไม่สำเร็จ');
+    otpIn.value = ''; paintBoxes();
+  } finally {
+    S.busy = false; setBtn('btnVerify', false, 'ยืนยันรหัส');
+  }
+}
+
+/* ---------- บัตรสมาชิก ---------- */
+function renderCard(m, isNew, profile) {
+  $('mNick').textContent = 'คุณ' + m.nickname;
+  $('mId').textContent = m.memberId;
+  $('mPhone').textContent = m.phoneMasked;
+  $('mSince').textContent = m.since || '-';
+  $('mPoints').textContent = (m.points || 0).toLocaleString('th-TH');
+  $('mBday').textContent = m.birthday || '-';
+  $('mFav').textContent = m.favBranch || '-';
+  $('welcome').classList.toggle('hidden', !isNew);
+  $('qrPill').classList.add('hidden');
+  show('vCard', isNew ? { title: 'สมัครสำเร็จ', sub: 'ขอบคุณที่เป็นสมาชิกหม่าม้าปุก', step: 4 }
+                      : { title: 'บัตรสมาชิก', sub: 'ก๋วยเตี๋ยวคอหมูย่าง หม่าม้าปุก' });
+  if (profile) startPq(profile);
+  if (!DEMO && CONFIG.OA_ID && S.meta.friend === false) $('addFriend').classList.remove('hidden');
+  if (!DEMO && window.liff && liff.isInClient && liff.isInClient()) $('btnClose').classList.remove('hidden');
+}
+/* ---------- คำถามเพิ่มเติม (ทีละข้อ กดทีเดียว) ---------- */
+function startPq(p) {
+  const qs = (p.questions || []).filter(q => q.opts && q.opts.length);
+  const ans = p.answers || {};
+  S.pq = { qs, answers: Object.assign({}, ans), queue: qs.filter(q => !ans[q.code]).map(q => q.code), done: 0, total: qs.length };
+  S.pq.done = S.pq.total - S.pq.queue.length;
+  $('pqThanks').classList.add('hidden');
+  showPq();
+}
+function showPq() {
+  const P = S.pq, code = P.queue[0];
+  if (!code) { $('pq').classList.add('hidden'); return; }
+  const q = P.qs.find(x => x.code === code);
+  $('pqStep').textContent = 'ข้อ ' + (P.done + 1) + ' จาก ' + P.total;
+  $('pqBar').style.width = Math.round(P.done / P.total * 100) + '%';
+  $('pqQ').textContent = q.q;
+  const box = $('pqOpts');
+  box.className = 'chips sm' + (q.opts.length === 3 ? ' c3' : '');
+  box.innerHTML = q.opts.map((o, i) => '<button type="button" class="chip mini" data-i="' + i + '"><b>' + esc(o) + '</b></button>').join('');
+  [...box.children].forEach(b => b.onclick = () => pqAnswer(q, q.opts[Number(b.dataset.i)], b));
+  $('pq').classList.remove('hidden');
+}
+function pqAnswer(q, val, btn) {
+  const P = S.pq;
+  if (P.queue[0] !== q.code) return;
+  btn.classList.add('pick');
+  P.answers[q.code] = val; P.queue.shift(); P.done++;
+  $('pqErr').textContent = '';
+  setTimeout(() => { showPq(); if (!P.queue.length && P.done) $('pqThanks').classList.remove('hidden'); }, 180);
+  api('saveAnswer', { code: q.code, value: val }).catch(() => {
+    delete P.answers[q.code]; P.done--; P.queue.push(q.code);
+    $('pqErr').textContent = 'บันทึกคำตอบไม่สำเร็จ ระบบจะถามข้อนี้อีกครั้ง';
+    $('pqThanks').classList.add('hidden'); showPq();
+  });
+}
+function pqSkip() { const P = S.pq; P.queue.shift(); P.total = P.done + P.queue.length; showPq(); }
+
+function openAddFriend() {
+  const url = 'https://line.me/R/ti/p/' + encodeURIComponent(CONFIG.OA_ID);
+  if (window.liff && liff.openWindow) liff.openWindow({ url, external: false }); else location.href = url;
+}
+function closeApp() { if (window.liff && liff.closeWindow) liff.closeWindow(); }
+
+/* ---------- ข้อกำหนด ---------- */
+function openDoc(t) { docTab(t); $('docModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+function closeDoc() { $('docModal').classList.add('hidden'); document.body.style.overflow = ''; }
+function docTab(t) {
+  $('docTerms').classList.toggle('hidden', t !== 'terms'); $('docPrivacy').classList.toggle('hidden', t !== 'privacy');
+  $('tabTerms').classList.toggle('on', t === 'terms'); $('tabPrivacy').classList.toggle('on', t === 'privacy');
+  $(t === 'terms' ? 'docTerms' : 'docPrivacy').scrollTop = 0;
+}
+function acceptDoc() { $('cTerms').checked = true; fieldErr('fConsent'); closeDoc(); }
+
+/* ---------- เรียกหลังบ้าน ---------- */
+async function api(action, data) {
+  if (DEMO) return mockApi(action, data || {});
+  const res = await fetch(CONFIG.API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(Object.assign({ action, idToken: S.idToken }, data || {}))
+  });
+  const j = await res.json();
+  if (!j.ok) throw j;
+  return j;
+}
+
+/* ---------- โหมดตัวอย่าง (ไม่เชื่อมระบบจริง) ---------- */
+const demo = { member: null, otp: null, no: 0, answers: {}, showQ: true };
+function demoToggleQ() { demo.showQ = !demo.showQ; $('demoQ').textContent = demo.showQ ? 'ปิดคำถาม' : 'เปิดคำถาม'; if (demo.member) renderCard(demo.member, false, { questions: demo.showQ ? DEMO_QS : [], answers: demo.answers }); }
+const DEMO_QS = [
+  { code: 'Q1', q: 'ปกติมาทานช่วงไหนบ่อยที่สุด', opts: ['มื้อเช้า', 'มื้อกลางวัน', 'ช่วงบ่าย', 'มื้อเย็น'] },
+  { code: 'Q2', q: 'ส่วนใหญ่มาทานกับใคร', opts: ['มาคนเดียว', 'เพื่อนร่วมงาน', 'ครอบครัวหรือแฟน', 'เพื่อน'] },
+  { code: 'Q3', q: 'ปกติสั่งแบบไหน', opts: ['ทานที่ร้าน', 'สั่งกลับบ้าน', 'เดลิเวอรี'] },
+  { code: 'Q4', q: 'ทำงานหรือพักอาศัยใกล้สาขาไหม', opts: ['ทำงานในอาคารที่มีสาขา', 'ทำงานใกล้สาขา', 'พักอาศัยใกล้สาขา', 'แวะมาเป็นครั้งคราว'] },
+  { code: 'Q5', q: 'ชอบรสชาติแบบไหน', opts: ['ไม่เผ็ด', 'เผ็ดน้อย', 'เผ็ดกลาง', 'เผ็ดมาก'] },
+  { code: 'Q6', q: 'รู้จักหม่าม้าปุกจากที่ไหน', opts: ['เดินผ่านหน้าร้าน', 'เพื่อนแนะนำ', 'Facebook', 'Instagram', 'TikTok', 'แอปเดลิเวอรี', 'Google Maps', 'อื่น ๆ'] }];
+
+const DEMO_BRANCHES = [
+  { code: 'GST', name: 'Gaysorn Tower', area: 'ชิดลม' }, { code: 'OCC', name: 'One City Centre', area: 'เพลินจิต' },
+  { code: 'PSL', name: 'Park Silom', area: 'สีลม' }, { code: 'SSQ', name: 'Sathorn Square', area: 'สาทร' },
+  { code: 'ASP', name: 'All Seasons Place', area: 'วิทยุ' }, { code: 'RM9', name: 'Rama 9', area: 'พระราม 9' }];
+function demoReset() {
+  demo.member = null; demo.otp = null; demo.answers = {}; S.fav = ''; S.gender = ''; S.last = null;
+  ['phone', 'nick'].forEach(i => $(i).value = ''); ['bDay', 'bMonth', 'bYear'].forEach(i => $(i).value = '');
+  $('cTerms').checked = false; $('cNews').checked = false; $('pqThanks').classList.add('hidden'); $('pq').classList.add('hidden'); clearErrs(); boot();
+}
+function mockApi(action, d) {
+  return new Promise((ok, bad) => setTimeout(() => {
+    const fail = (code, message, field) => bad({ ok: false, code, message, field });
+    if (action === 'init') return ok({ ok: true, mode: 'TEST', member: demo.member, branches: DEMO_BRANCHES, profile: demo.member ? { questions: demo.showQ ? DEMO_QS : [], answers: demo.answers } : null });
+    if (action === 'saveAnswer') { demo.answers[d.code] = d.value; return ok({ ok: true }); }
+    if (action === 'requestOtp') {
+      if (!/^0[689]\d{8}$/.test(d.phone)) return fail('BAD_PHONE', 'เบอร์มือถือไม่ถูกต้อง', 'phone');
+      const code = String(Math.floor(100000 + Math.random() * 900000));
+      demo.otp = { code, d, tries: 0 };
+      return ok({ ok: true, phoneMasked: d.phone.slice(0, 3) + '-xxx-' + d.phone.slice(6), cooldown: 60, testCode: code });
+    }
+    if (action === 'verifyOtp') {
+      if (!demo.otp) return fail('OTP_EXPIRED', 'รหัสหมดอายุแล้ว กรุณากดขอรหัสใหม่');
+      if (d.code !== demo.otp.code) { demo.otp.tries++; return fail('OTP_WRONG', 'รหัสไม่ถูกต้อง เหลือโอกาสอีก ' + (5 - demo.otp.tries) + ' ครั้ง'); }
+      const f = demo.otp.d; demo.otp = null; demo.no++;
+      const now = new Date(), b = f.birthDate.split('-').map(Number);
+      demo.member = { memberId: 'MP' + String(demo.no).padStart(6, '0'), nickname: f.nickname,
+        phoneMasked: f.phone.slice(0, 3) + '-xxx-' + f.phone.slice(6), birthday: b[2] + ' ' + TH_MONTHS[b[1] - 1],
+        favBranch: (DEMO_BRANCHES.find(x => x.code === f.favBranch) || {}).name || '', points: 0,
+        since: String(now.getDate()).padStart(2, '0') + '/' + String(now.getMonth() + 1).padStart(2, '0') + '/' + (now.getFullYear() + 543) };
+      return ok({ ok: true, member: demo.member, profile: { questions: demo.showQ ? DEMO_QS : [], answers: demo.answers } });
+    }
+    fail('BAD_ACTION', 'คำสั่งไม่ถูกต้อง');
+  }, 450));
+}
+
+boot();
+</script>
+</body>
+</html>
